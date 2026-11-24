@@ -42,6 +42,18 @@ app.use(
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
+// Ensure DB is connected for requests (Vercel Serverless / Services lifecycle)
+app.use('/api', async (req, res, next) => {
+  if (mongoose.connection.readyState === 0) {
+    try {
+      await connectDB();
+    } catch (err) {
+      console.warn('[MongoDB] Auto-connect attempt warning:', err.message);
+    }
+  }
+  next();
+});
+
 // Health Check API
 app.get('/api/health', (req, res) => {
   const mongoStatusMap = {

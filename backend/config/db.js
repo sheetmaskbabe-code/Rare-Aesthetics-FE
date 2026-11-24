@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 export async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
   let uri = (process.env.MONGODB_URI || '').trim();
   if (uri.startsWith('MONGODB_URI=')) {
     uri = uri.replace(/^MONGODB_URI=\s*/, '').trim();
