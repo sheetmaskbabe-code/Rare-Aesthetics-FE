@@ -873,11 +873,17 @@ export function Component({
         </div>
       )}
 
-      {/* Main slide title and description */}
+      {/* Fixed SEO H1 + visual slide title as H2 so page title and heading align */}
       <div className="slide-content">
-        <h1 className="slide-title" id="mainTitle">
-          {slides[activeIdx]?.title || slides[0]?.title}
+        <p className="mb-2 text-xs font-medium uppercase tracking-[0.22em] text-white/70 sm:text-sm">
+          My Rare Aesthetics · Pretoria
+        </p>
+        <h1 className="slide-title" id="mainTitle" style={{ fontSize: 'clamp(1.75rem, 4vw, 3.25rem)' }}>
+          Cosmetic Product Development in Pretoria
         </h1>
+        <h2 className="mt-3 font-heading text-xl font-medium text-white/90 sm:text-2xl md:text-3xl" id="slideHeading">
+          {slides[activeIdx]?.title || slides[0]?.title}
+        </h2>
         <p className="slide-description" id="mainDesc">
           {slides[activeIdx]?.description || slides[0]?.description}
         </p>

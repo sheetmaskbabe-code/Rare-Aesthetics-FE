@@ -119,11 +119,11 @@ export function Seo({
       '@id': `${SITE_URL}/#website`,
       name: siteConfig.brand,
       url: SITE_URL,
-      inLanguage: 'en-ZA',
+      inLanguage: 'en',
       publisher: { '@id': `${SITE_URL}/#organization` },
     },
     about: { '@id': `${SITE_URL}/#organization` },
-    inLanguage: 'en-ZA',
+    inLanguage: 'en',
   };
 
   const breadcrumbSchema =
@@ -154,7 +154,7 @@ export function Seo({
 
   return (
     <Helmet prioritizeSeoTags>
-      <html lang="en-ZA" />
+      <html lang="en" />
       <title>{fullTitle}</title>
 
       {/* Primary */}
@@ -176,7 +176,6 @@ export function Seo({
       <meta name="distribution" content="global" />
       <meta name="revisit-after" content="7 days" />
       <meta name="language" content="English" />
-      <meta httpEquiv="content-language" content="en-ZA" />
 
       {/* Geo / Local SEO */}
       <meta name="geo.region" content="ZA-GP" />
@@ -186,8 +185,8 @@ export function Seo({
 
       {/* Canonical + alternate */}
       <link rel="canonical" href={canonicalUrl} />
-      <link rel="alternate" hrefLang="en-ZA" href={canonicalUrl} />
       <link rel="alternate" hrefLang="en" href={canonicalUrl} />
+      <link rel="alternate" hrefLang="en-ZA" href={canonicalUrl} />
       <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
 
       {/* Open Graph */}

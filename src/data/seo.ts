@@ -37,14 +37,15 @@ export type PageSeo = {
 export const pageSeo: Record<string, PageSeo> = {
   home: {
     path: '/',
-    title: 'My Rare Aesthetics | Where Science Meets the Art of Beauty',
+    title: 'My Rare Aesthetics | Cosmetic Product Development in Pretoria',
     description:
-      'Premium cosmetic product development, formulation, manufacturing support and beauty brand consulting in Pretoria, South Africa. From concept to commercial launch with My Rare Aesthetics.',
+      'My Rare Aesthetics helps beauty brands with cosmetic formulation, product development, manufacturing support and consulting in Pretoria, South Africa. Start your project today.',
     keywords: [
       ...CORE_KEYWORDS,
       'cosmetic lab Pretoria',
       'beauty innovation South Africa',
       'end to end cosmetic development',
+      'Where Science Meets the Art of Beauty',
     ],
     priority: 1,
     changefreq: 'weekly',
