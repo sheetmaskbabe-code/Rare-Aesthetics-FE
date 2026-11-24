@@ -1,0 +1,436 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --font-mono: "PPSupplyMono", monospace;
+  --font-sans: "PP Neue Montreal", sans-serif;
+  --font-display: "Cormorant Garamond", serif;
+  --color-bg: #0a0a0a;
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.7);
+  --color-text-light: rgba(255, 255, 255, 0.5);
+  --color-accent: #d5b2dd;
+  --font-size-mono: clamp(10px, 1.2vw, 12px);
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+}
+
+@theme {
+  --color-lavender: #e4d6e0;
+  --color-orchid: #d5b2dd;
+  --color-plum: #5f3a68;
+  --color-deep-blue: #004f77;
+  --color-dark-plum: #35213b;
+  --color-cream: #f7f1f5;
+  --color-white-soft: #fcf9fb;
+
+  --color-primary: #35213b;
+  --color-primary-foreground: #fcf9fb;
+  --color-muted: #f1e9ef;
+  --color-muted-foreground: #6b5570;
+  --color-border: rgba(53, 33, 59, 0.15);
+
+  --font-heading: "Outfit", "ADAM", ui-sans-serif, system-ui, sans-serif;
+  --font-alt: "Manrope", "ModernSans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    --lavender: #e4d6e0;
+    --orchid: #d5b2dd;
+    --plum: #5f3a68;
+    --deep-blue: #004f77;
+    --dark-plum: #35213b;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--lavender);
+    color: var(--dark-plum);
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+
+  .font-alt {
+    font-family: var(--font-alt);
+    font-weight: 300;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #e4d6e0;
+}
+::-webkit-scrollbar-thumb {
+  background: #5f3a68;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #35213b;
+}
+
+/* Soft atmospheric background */
+.bg-atmosphere {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(213, 178, 221, 0.55), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 20%, rgba(0, 79, 119, 0.08), transparent 50%),
+    linear-gradient(180deg, #f7f1f5 0%, #e4d6e0 45%, #f7f1f5 100%);
+}
+
+.bg-hero-mesh {
+  background:
+    radial-gradient(circle at 70% 40%, rgba(213, 178, 221, 0.45), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(95, 58, 104, 0.12), transparent 40%),
+    linear-gradient(135deg, #f7f1f5 0%, #e4d6e0 50%, #d5b2dd 100%);
+}
+
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+.prose-rare p {
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--dark-plum) 78%, transparent);
+}
+
+/* --- Lumina Interactive List WebGL Slider Styles --- */
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background-color: var(--color-bg, #0a0a0a);
+  color: var(--color-text, #ffffff);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.slide-bg-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  filter: brightness(0.92);
+  transition: opacity 0.6s ease-in-out;
+}
+
+.webgl-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  filter: brightness(0.92);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.webgl-canvas.active {
+  opacity: 1;
+}
+
+.slider-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 20%, rgba(10, 10, 10, 0.15), rgba(10, 10, 10, 0.7) 80%),
+              linear-gradient(180deg, rgba(10, 10, 10, 0.35) 0%, rgba(10, 10, 10, 0.1) 40%, rgba(10, 10, 10, 0.85) 100%);
+}
+
+.slide-counter-badge {
+  position: absolute;
+  top: clamp(1.5rem, 4vw, 2.75rem);
+  left: clamp(1.5rem, 5vw, 4rem);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-mono, 12px);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, rgba(255, 255, 255, 0.7));
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.slide-number {
+  color: var(--color-accent, #d5b2dd);
+  font-weight: 600;
+}
+
+.slide-counter-divider {
+  opacity: 0.4;
+}
+
+.slide-total {
+  opacity: 0.7;
+}
+
+.slide-content {
+  position: relative;
+  z-index: 10;
+  max-width: 860px;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  padding-bottom: clamp(6.5rem, 14vh, 9rem);
+  pointer-events: auto;
+}
+
+.slide-title {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text, #ffffff);
+  margin-bottom: 1.25rem;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.slide-description {
+  font-family: var(--font-sans, "PP Neue Montreal", sans-serif);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--color-text-muted, rgba(255, 255, 255, 0.8));
+  max-width: 540px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.slide-custom-actions {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.slides-navigation {
+  display: none !important;
+  position: absolute;
+  z-index: 10;
+  bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+  left: clamp(1.5rem, 5vw, 4rem);
+  right: clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.8vw, 1.75rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 0.5rem;
+}
+
+.slides-navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  min-width: 100px;
+  flex: 1;
+  opacity: 0.45;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  user-select: none;
+}
+
+.slide-nav-item:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.slide-nav-item.active {
+  opacity: 1;
+}
+
+.slide-progress-line {
+  display: none;
+}
+
+.slide-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--color-accent, #d5b2dd);
+  box-shadow: 0 0 10px var(--color-accent, #d5b2dd);
+  border-radius: 9999px;
+  transition: width 0.05s linear, opacity 0.3s ease;
+}
+
+.slide-nav-title {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-mono, 11px);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, rgba(255, 255, 255, 0.7));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.slide-nav-item.active .slide-nav-title {
+  color: var(--color-text, #ffffff);
+  font-weight: 500;
+}
+
+/* --- Compact / Decreased Size Mode for Portfolio --- */
+.slider-wrapper.slider-compact {
+  height: 100%;
+  min-height: 440px;
+}
+
+.slider-wrapper.slider-compact .slide-counter-badge {
+  top: clamp(1rem, 2.5vw, 1.75rem);
+  left: clamp(1.25rem, 4vw, 3rem);
+  padding: 0.3rem 0.75rem;
+}
+
+.slider-wrapper.slider-compact .slide-content {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  padding-bottom: clamp(4.5rem, 9vh, 6rem);
+  max-width: 740px;
+}
+
+.slider-wrapper.slider-compact .slide-title {
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  margin-bottom: 0.65rem;
+  line-height: 1.08;
+}
+
+.slider-wrapper.slider-compact .slide-description {
+  font-size: clamp(0.875rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
+  max-width: 520px;
+}
+
+.slider-wrapper.slider-compact .slide-custom-actions {
+  margin-top: 1.1rem;
+  gap: 0.75rem;
+}
+
+.slider-wrapper.slider-compact .slides-navigation {
+  bottom: clamp(0.85rem, 2vw, 1.5rem);
+  left: clamp(1.25rem, 4vw, 3rem);
+  right: clamp(1.25rem, 4vw, 3rem);
+  gap: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+
+/* =========================================================
+   ADMIN PORTAL ACCENT THEME: #9810FA
+   Replaces previous lavender / orchid / plum accents with
+   vibrant #9810FA for active tabs, primary buttons, badges,
+   and focus states.
+   ========================================================= */
+.admin-portal {
+  --admin-accent: #9810fa;
+  --admin-accent-hover: #820dd6;
+  --admin-accent-light: rgba(152, 16, 250, 0.14);
+  --admin-accent-border: rgba(152, 16, 250, 0.35);
+}
+
+.admin-portal .bg-plum {
+  background-color: #9810fa !important;
+  color: #ffffff !important;
+}
+
+.admin-portal .bg-plum:hover {
+  background-color: #820dd6 !important;
+}
+
+.admin-portal .hover\:bg-plum\/90:hover {
+  background-color: #820dd6 !important;
+}
+
+.admin-portal .text-plum {
+  color: #9810fa !important;
+}
+
+.admin-portal .border-plum {
+  border-color: #9810fa !important;
+}
+
+.admin-portal .ring-plum {
+  --tw-ring-color: #9810fa !important;
+}
+
+.admin-portal .bg-orchid\/20 {
+  background-color: rgba(152, 16, 250, 0.14) !important;
+}
+
+.admin-portal .bg-orchid {
+  background-color: #9810fa !important;
+  color: #ffffff !important;
+}
+
+.admin-portal .bg-orchid:hover {
+  background-color: #820dd6 !important;
+}
+
+.admin-portal .text-orchid {
+  color: #9810fa !important;
+}
+
+.admin-portal .border-orchid\/20,
+.admin-portal .border-orchid\/30 {
+  border-color: rgba(152, 16, 250, 0.3) !important;
+}
+
+.admin-portal input:focus,
+.admin-portal textarea:focus,
+.admin-portal select:focus {
+  border-color: #9810fa !important;
+  outline: none !important;
+  box-shadow: 0 0 0 1px #9810fa !important;
+}
+
+.admin-portal button[type="submit"]:not([class*="bg-red"]):not([class*="bg-rose"]) {
+  background-color: #9810fa !important;
+  color: #ffffff !important;
+}
+
+.admin-portal button[type="submit"]:not([class*="bg-red"]):not([class*="bg-rose"]):hover {
+  background-color: #820dd6 !important;
+}
+
+
