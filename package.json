@@ -10,6 +10,7 @@
     "server": "node backend/server.js",
     "seed": "node backend/seed.js",
     "build": "tsc && vite build",
+    "deploy": "npm run build && wrangler deploy",
     "preview": "vite preview",
     "start": "vite"
   },
