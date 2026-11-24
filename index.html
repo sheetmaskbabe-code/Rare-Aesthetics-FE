@@ -84,10 +84,38 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Instant paint while the Vite bundle loads — avoids showing raw SEO text */
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #f6f2f5;
+        color: #2b1830;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      #app-boot {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        font-family: Outfit, Manrope, system-ui, sans-serif;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #5f3a68;
+      }
+    </style>
   </head>
-  <body class="bg-lavender text-dark-plum antialiased selection:bg-orchid/60 selection:text-dark-plum min-h-screen">
-    <!-- Crawlable content for SEO tools / non-JS agents; React replaces #root on mount -->
+  <body>
+    <!-- Empty mount target — React replaces this. Do NOT put visible SEO copy here. -->
     <div id="root">
+      <div id="app-boot" aria-live="polite">My Rare Aesthetics</div>
+    </div>
+
+    <!-- Crawlable fallback only when JavaScript is disabled -->
+    <noscript>
       <header>
         <nav aria-label="Primary">
           <a href="/">Home</a>
@@ -111,11 +139,6 @@
           and brand-minded consulting — from concept to commercial launch in South Africa.
         </p>
         <h2>Cosmetic development services</h2>
-        <p>
-          Explore our services including product development and formulation, regulatory support,
-          manufacturing support, ingredient research, testing and clinical evaluation, packaging
-          sourcing, brand strategy and quality management.
-        </p>
         <ul>
           <li><a href="/services/product-development-formulation">Product Development and Formulation</a></li>
           <li><a href="/services/regulatory-support">Regulatory Support</a></li>
@@ -126,35 +149,24 @@
           <li><a href="/services/packaging-manufacturing-sourcing">Packaging and Manufacturing Sourcing</a></li>
           <li><a href="/services/quality-management">Quality Management</a></li>
         </ul>
-        <h2>Our process</h2>
+        <h2>Explore</h2>
         <p>
-          Follow a clear seven-stage journey from vision and formulation through testing, scale-up
-          and launch readiness. <a href="/process">Read our process</a>.
-        </p>
-        <h2>About My Rare Aesthetics</h2>
-        <p>
-          Founded by Lindi-Grace in Pretoria, South Africa, we combine scientific care with
-          brand-minded development. <a href="/about">Learn more about us</a> or
-          <a href="/book">book a consultation</a>.
-        </p>
-        <h2>Insights and portfolio</h2>
-        <p>
-          Browse <a href="/portfolio">portfolio projects</a>,
-          <a href="/products">product ranges</a>,
-          <a href="/blog">blog insights</a>,
-          and <a href="/faq">frequently asked questions</a>.
-          Ready to start? <a href="/contact">Contact My Rare Aesthetics</a>.
+          <a href="/process">Our process</a> ·
+          <a href="/about">About us</a> ·
+          <a href="/portfolio">Portfolio</a> ·
+          <a href="/products">Products</a> ·
+          <a href="/blog">Blog</a> ·
+          <a href="/faq">FAQ</a> ·
+          <a href="/book">Book a consultation</a> ·
+          <a href="/contact">Contact</a>
         </p>
       </main>
       <footer>
         <p>My Rare Aesthetics — 60 Willow Rd, Muckleneuk, Pretoria, 0002, South Africa</p>
-        <p>
-          <a href="/privacy">Privacy Policy</a> ·
-          <a href="/terms">Terms and Conditions</a> ·
-          <a href="/why-choose-us">Why Choose Us</a>
-        </p>
+        <p><a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a></p>
       </footer>
-    </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
