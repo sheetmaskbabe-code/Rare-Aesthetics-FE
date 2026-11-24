@@ -20,6 +20,7 @@ dist-ssr/
 
 # Editor & OS
 desktop.ini
+*.zip
 .vscode/*
 !.vscode/extensions.json
 .idea/
