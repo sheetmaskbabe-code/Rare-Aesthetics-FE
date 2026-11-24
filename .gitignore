@@ -13,6 +13,8 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+# Allow production API URL (public VITE_ var only — no secrets)
+!.env.production
 
 # Production build outputs
 dist/
