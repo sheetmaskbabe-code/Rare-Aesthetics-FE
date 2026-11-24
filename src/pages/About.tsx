@@ -6,6 +6,7 @@ import { Seo } from '@/components/ui/Seo';
 import { FinalCta } from '@/components/FinalCta';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { siteConfig } from '@/data/site';
+import { pageSeo } from '@/data/seo';
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { apiUrl } from '@/lib/api';
 import founderImage from '@/images/WhatsApp Image 2026-11-21 at 16.09.57.jpeg';
@@ -96,8 +97,13 @@ export function About() {
   return (
     <>
       <Seo
-        title="About Us | My Rare Aesthetics"
-        description="Learn about My Rare Aesthetics and founder Lindi-Grace — cosmetic product development and consulting in Pretoria."
+        title={pageSeo.about.title}
+        description={pageSeo.about.description}
+        keywords={pageSeo.about.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+        ]}
       />
 
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}

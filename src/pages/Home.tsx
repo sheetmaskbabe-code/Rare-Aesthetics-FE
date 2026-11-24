@@ -13,6 +13,7 @@ import { services } from '@/data/services';
 import { processSteps } from '@/data/process';
 import { faqs } from '@/data/faq';
 import { siteConfig } from '@/data/site';
+import { pageSeo } from '@/data/seo';
 import { useContent } from '@/context/ContentContext';
 import { apiUrl } from '@/lib/api';
 
@@ -138,8 +139,10 @@ export function Home() {
   return (
     <>
       <Seo
-        title="My Rare Aesthetics | Where Science Meets the Art of Beauty"
-        description="Premium cosmetic product development, formulation, manufacturing support and consulting in Pretoria, South Africa."
+        title={pageSeo.home.title}
+        description={pageSeo.home.description}
+        keywords={pageSeo.home.keywords}
+        breadcrumbs={[{ name: 'Home', path: '/' }]}
       />
 
       {/* Hero — interactive Lumina WebGL shader showcase */}

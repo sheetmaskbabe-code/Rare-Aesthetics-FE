@@ -5,6 +5,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { Button } from '@/components/ui/button';
 import { siteConfig } from '@/data/site';
+import { pageSeo } from '@/data/seo';
 
 export function Payment() {
   const hasProvider = Boolean(siteConfig.paymentProviderUrl);
@@ -32,8 +33,10 @@ export function Payment() {
   return (
     <>
       <Seo
-        title="Make a Payment | My Rare Aesthetics"
-        description="Secure payment page for My Rare Aesthetics project invoices and consultation fees."
+        title={pageSeo.payment.title}
+        description={pageSeo.payment.description}
+        keywords={pageSeo.payment.keywords}
+        noindex
       />
       <PageHero
         eyebrow="Make a Payment"

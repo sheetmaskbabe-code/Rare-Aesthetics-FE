@@ -10,6 +10,7 @@ import { usePageHeader } from '@/hooks/usePageHeader';
 import { apiUrl } from '@/lib/api';
 import { siteConfig } from '@/data/site';
 import { services } from '@/data/services';
+import { pageSeo } from '@/data/seo';
 
 const contactSlides = [
   {
@@ -190,8 +191,13 @@ export function Contact() {
   return (
     <>
       <Seo
-        title="Contact Us | My Rare Aesthetics"
-        description="Send a project enquiry or reach My Rare Aesthetics in Pretoria."
+        title={pageSeo.contact.title}
+        description={pageSeo.contact.description}
+        keywords={pageSeo.contact.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ]}
       />
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}
       <section className="relative h-[60svh] min-h-[460px] max-h-[600px] overflow-hidden bg-[#0a0a0a]">

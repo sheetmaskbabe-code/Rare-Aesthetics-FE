@@ -19,6 +19,7 @@ import {
 import { Seo } from '@/components/ui/Seo';
 import { Section } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
+import { pageSeo } from '@/data/seo';
 import { cn } from '@/lib/utils';
 
 // Exact time slots provided in the user screenshots
@@ -194,8 +195,13 @@ export function BookConsultation() {
   return (
     <>
       <Seo
-        title="Book a Consultation | My Rare Aesthetics"
-        description="Select a date and time slot for a personalized 30-minute cosmetic product development consultation."
+        title={pageSeo.book.title}
+        description={pageSeo.book.description}
+        keywords={pageSeo.book.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Book Consultation', path: '/book' },
+        ]}
       />
 
       <Section className="relative pt-28 pb-20 bg-[#35213B] min-h-[90vh] flex items-center justify-center overflow-hidden">

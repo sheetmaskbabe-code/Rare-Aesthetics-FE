@@ -6,6 +6,7 @@ import { Seo } from '@/components/ui/Seo';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { useContent } from '@/context/ContentContext';
+import { pageSeo } from '@/data/seo';
 
 const blogSlides = [
   {
@@ -60,8 +61,13 @@ export function Blog() {
   return (
     <>
       <Seo
-        title="Blog & Insights | My Rare Aesthetics"
-        description="Insights on cosmetic formulation, ingredients, product development and beauty brand building."
+        title={pageSeo.blog.title}
+        description={pageSeo.blog.description}
+        keywords={pageSeo.blog.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Blog', path: '/blog' },
+        ]}
       />
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}
       <section className="relative h-[60svh] min-h-[460px] max-h-[600px] overflow-hidden bg-[#0a0a0a]">

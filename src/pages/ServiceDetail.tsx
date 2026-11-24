@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { ServiceIcon } from '@/components/ServiceIcon';
 import { services as defaultServices } from '@/data/services';
+import { servicePageSeo } from '@/data/seo';
 import { apiUrl } from '@/lib/api';
 
 export function ServiceDetail() {
@@ -39,10 +40,21 @@ export function ServiceDetail() {
   if (!service) return <Navigate to="/services" replace />;
 
   const benefitsList = Array.isArray(service.benefits) ? service.benefits : [];
+  const seo = servicePageSeo(service);
 
   return (
     <>
-      <Seo title={`${service.title} | My Rare Aesthetics`} description={service.short} />
+      <Seo
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        image={typeof service.image === 'string' ? service.image : undefined}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Services', path: '/services' },
+          { name: service.title, path: `/services/${service.id}` },
+        ]}
+      />
 
       <div className="bg-hero-mesh border-b border-plum/10">
         <div className="mx-auto max-w-7xl px-5 pb-16 pt-32 sm:px-8 md:pb-20 md:pt-40">

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { apiUrl } from '@/lib/api';
+import { pageSeo } from '@/data/seo';
 import { processChapters } from '@/data/process';
 
 const processSlides = [
@@ -325,8 +326,13 @@ export function Process() {
   return (
     <>
       <Seo
-        title="Our Process | My Rare Aesthetics"
-        description="Follow the seven-phase My Rare Aesthetics journey from vision and formulation to commercial product launch."
+        title={pageSeo.process.title}
+        description={pageSeo.process.description}
+        keywords={pageSeo.process.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Process', path: '/process' },
+        ]}
       />
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}
       <section className="relative h-[60svh] min-h-[460px] max-h-[600px] overflow-hidden bg-[#0a0a0a]">

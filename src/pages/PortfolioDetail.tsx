@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Section } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
+import { CORE_KEYWORDS } from '@/data/seo';
 import { useContent } from '@/context/ContentContext';
 
 export function PortfolioDetail() {
@@ -19,6 +20,12 @@ export function PortfolioDetail() {
         title={`${item.title} | Portfolio`}
         description={item.description}
         image={item.image}
+        keywords={[item.title, 'cosmetic portfolio', 'beauty project', ...CORE_KEYWORDS]}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Portfolio', path: '/portfolio' },
+          { name: item.title, path: `/portfolio/${item.slug}` },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CreativeWork',

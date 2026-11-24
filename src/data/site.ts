@@ -1,5 +1,7 @@
 export const siteConfig = {
   brand: 'My Rare Aesthetics',
+  /** Canonical live site URL used for SEO / OG / sitemap */
+  siteUrl: 'https://www.rareaestheticsgroup.com',
   founder: 'Lindi-Grace',
   tagline: 'Where Science Meets the Art of Beauty.',
   location: 'Pretoria, South Africa',

@@ -2,6 +2,7 @@ import { PageHero } from '@/components/ui/PageHero';
 import { Section } from '@/components/ui/Section';
 import { Seo } from '@/components/ui/Seo';
 import { siteConfig } from '@/data/site';
+import { pageSeo } from '@/data/seo';
 
 export function PrivacyTerms({ type }: { type: 'privacy' | 'terms' }) {
   const isPrivacy = type === 'privacy';
@@ -9,8 +10,16 @@ export function PrivacyTerms({ type }: { type: 'privacy' | 'terms' }) {
   return (
     <>
       <Seo
-        title={`${isPrivacy ? 'Privacy Policy' : 'Terms and Conditions'} | My Rare Aesthetics`}
-        description={`${isPrivacy ? 'Privacy Policy' : 'Terms and Conditions'} for ${siteConfig.brand}.`}
+        title={(isPrivacy ? pageSeo.privacy : pageSeo.terms).title}
+        description={(isPrivacy ? pageSeo.privacy : pageSeo.terms).description}
+        keywords={(isPrivacy ? pageSeo.privacy : pageSeo.terms).keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          {
+            name: isPrivacy ? 'Privacy Policy' : 'Terms',
+            path: isPrivacy ? '/privacy' : '/terms',
+          },
+        ]}
       />
       <PageHero
         eyebrow="Legal"

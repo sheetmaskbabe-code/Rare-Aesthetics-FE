@@ -4,6 +4,7 @@ import { Section } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { Button } from '@/components/ui/button';
+import { CORE_KEYWORDS, SITE_URL } from '@/data/seo';
 import { useContent } from '@/context/ContentContext';
 
 function renderInlineFormatting(text: string) {
@@ -132,6 +133,12 @@ export function BlogPost() {
         image={post.image}
         type="article"
         publishedTime={post.date}
+        keywords={[post.title, 'cosmetic formulation blog', 'beauty insights', ...CORE_KEYWORDS]}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Blog', path: '/blog' },
+          { name: post.title, path: `/blog/${post.slug}` },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'BlogPosting',
@@ -139,6 +146,7 @@ export function BlogPost() {
           description: post.excerpt,
           image: post.image,
           datePublished: post.date,
+          mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
           author: {
             '@type': 'Person',
             name: 'Lindi-Grace',
@@ -148,7 +156,7 @@ export function BlogPost() {
             name: 'My Rare Aesthetics',
             logo: {
               '@type': 'ImageObject',
-              url: typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : '/logo.png',
+              url: `${SITE_URL}/logo.png`,
             },
           },
         }}

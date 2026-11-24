@@ -9,6 +9,7 @@ import { Component as LuminaInteractiveList } from '@/components/ui/lumina-inter
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { useContent } from '@/context/ContentContext';
 import { portfolioCategories } from '@/data/portfolio';
+import { pageSeo } from '@/data/seo';
 import { cn } from '@/lib/utils';
 
 const portfolioSlides = [
@@ -70,8 +71,13 @@ export function Portfolio() {
   return (
     <>
       <Seo
-        title="Portfolio | My Rare Aesthetics"
-        description="Explore client-approved cosmetic development, packaging and brand projects."
+        title={pageSeo.portfolio.title}
+        description={pageSeo.portfolio.description}
+        keywords={pageSeo.portfolio.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Portfolio', path: '/portfolio' },
+        ]}
       />
 
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}

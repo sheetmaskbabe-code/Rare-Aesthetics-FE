@@ -19,6 +19,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { Button } from '@/components/ui/button';
 import { FinalCta } from '@/components/FinalCta';
+import { pageSeo } from '@/data/seo';
 import { cn } from '@/lib/utils';
 
 const categories = [
@@ -289,8 +290,13 @@ export function Products() {
   return (
     <>
       <Seo
-        title="Our Product Range | Skincare, Haircare & Makeup | My Rare Aesthetics"
-        description="Explore our complete cosmetic product formulation range across skincare, haircare, and makeup. Custom cosmetic science developed in Pretoria, South Africa."
+        title={pageSeo.products.title}
+        description={pageSeo.products.description}
+        keywords={pageSeo.products.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Products', path: '/products' },
+        ]}
       />
 
       <PageHero

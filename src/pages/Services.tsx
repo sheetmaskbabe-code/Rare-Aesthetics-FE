@@ -9,6 +9,7 @@ import { Component as LuminaInteractiveList } from '@/components/ui/lumina-inter
 import { usePageHeader } from '@/hooks/usePageHeader';
 import formulationImage from '@/images/WhatsApp Image 2026-11-19 at 16.29.40 (1).jpeg';
 import { services as defaultServices } from '@/data/services';
+import { pageSeo } from '@/data/seo';
 import { apiUrl } from '@/lib/api';
 
 const serviceSlides = [
@@ -96,8 +97,13 @@ export function Services() {
   return (
     <>
       <Seo
-        title="Services | My Rare Aesthetics"
-        description="Explore cosmetic formulation, regulatory support, manufacturing coordination, brand strategy and more."
+        title={pageSeo.services.title}
+        description={pageSeo.services.description}
+        keywords={pageSeo.services.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Services', path: '/services' },
+        ]}
       />
 
       {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}

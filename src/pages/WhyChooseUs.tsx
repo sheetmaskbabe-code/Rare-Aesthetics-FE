@@ -3,6 +3,7 @@ import { Section, SectionHeading } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { FinalCta } from '@/components/FinalCta';
+import { pageSeo } from '@/data/seo';
 
 const pillars = [
   {
@@ -35,8 +36,13 @@ export function WhyChooseUs() {
   return (
     <>
       <Seo
-        title="Why Choose Us | My Rare Aesthetics"
-        description="Discover the My Rare Aesthetics approach to integrated, research-driven cosmetic product development."
+        title={pageSeo.whyChooseUs.title}
+        description={pageSeo.whyChooseUs.description}
+        keywords={pageSeo.whyChooseUs.keywords}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Why Choose Us', path: '/why-choose-us' },
+        ]}
       />
       <PageHero
         eyebrow="Why Choose Us"
