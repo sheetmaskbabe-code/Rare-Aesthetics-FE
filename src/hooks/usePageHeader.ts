@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { apiUrl } from '@/lib/api';
 
 export type HeaderSlide = {
   title: string;
@@ -11,7 +12,7 @@ export function usePageHeader(page: string, defaultSlides: HeaderSlide[]) {
 
   useEffect(() => {
     let isMounted = true;
-    fetch(`/api/headers/${page}`)
+    fetch(apiUrl(`/api/headers/${page}`))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (isMounted && data?.header?.slides && data.header.slides.length > 0) {

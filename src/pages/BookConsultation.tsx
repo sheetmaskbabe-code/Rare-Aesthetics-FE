@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '@/lib/api';
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -156,7 +157,7 @@ export function BookConsultation() {
       const serviceDescription = `Consultation: ${formattedDate} at ${selectedTime}`;
 
       // Submit lead to backend enquiries collection
-      await fetch('/api/enquiry', {
+      await fetch(apiUrl('/api/enquiry'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

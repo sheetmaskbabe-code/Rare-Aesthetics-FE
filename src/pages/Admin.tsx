@@ -12,6 +12,7 @@ import { AdminAboutTab } from '@/components/admin/AdminAboutTab';
 import { AdminMediaTab } from '@/components/admin/AdminMediaTab';
 import { AdminSettingsTab } from '@/components/admin/AdminSettingsTab';
 import { Globe, ShieldCheck } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 const ADMIN_SESSION_KEY = 'mra_admin_session';
 const ADMIN_TOKEN_KEY = 'mra_admin_token';
@@ -36,7 +37,7 @@ export function Admin() {
 
   const checkHealth = useCallback(async () => {
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch(apiUrl('/api/health'));
       if (res.ok) {
         const data = await res.json();
         setHealth({
@@ -56,7 +57,7 @@ export function Admin() {
       let list: EnquiryItem[] = [];
 
       try {
-        const res = await fetch('/api/enquiries', {
+        const res = await fetch(apiUrl('/api/enquiries'), {
           headers: {
             'x-admin-key': 'Rare1357',
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -113,7 +114,7 @@ export function Admin() {
 
   const fetchMediaCount = useCallback(async () => {
     try {
-      const res = await fetch('/api/upload');
+      const res = await fetch(apiUrl('/api/upload'));
       if (res.ok) {
         const data = await res.json();
         setMediaCount(data.media?.length || 0);
@@ -148,7 +149,7 @@ export function Admin() {
   const updateEnquiryStatus = async (id: string, newStatus: EnquiryItem['status']) => {
     try {
       const token = sessionStorage.getItem(ADMIN_TOKEN_KEY);
-      await fetch(`/api/enquiries/${encodeURIComponent(id)}`, {
+      await fetch(apiUrl(`/api/enquiries/${encodeURIComponent(id)}`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +178,7 @@ export function Admin() {
   const deleteEnquiry = async (id: string) => {
     try {
       const token = sessionStorage.getItem(ADMIN_TOKEN_KEY);
-      await fetch(`/api/enquiries/${encodeURIComponent(id)}`, {
+      await fetch(apiUrl(`/api/enquiries/${encodeURIComponent(id)}`), {
         method: 'DELETE',
         headers: {
           'x-admin-key': 'Rare1357',

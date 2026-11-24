@@ -7,6 +7,7 @@ import { Seo } from '@/components/ui/Seo';
 import { Button } from '@/components/ui/button';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { usePageHeader } from '@/hooks/usePageHeader';
+import { apiUrl } from '@/lib/api';
 import { siteConfig } from '@/data/site';
 import { services } from '@/data/services';
 
@@ -120,7 +121,7 @@ export function Contact() {
           uploadData.append('file', selectedFile);
           uploadData.append('folder', 'enquiries');
 
-          const uploadRes = await fetch('/api/upload', {
+          const uploadRes = await fetch(apiUrl('/api/upload'), {
             method: 'POST',
             body: uploadData,
           });
@@ -135,7 +136,7 @@ export function Contact() {
         }
       }
 
-      const res = await fetch('/api/enquiry', {
+      const res = await fetch(apiUrl('/api/enquiry'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

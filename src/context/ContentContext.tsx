@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react';
 import { BlogPost, defaultBlogPosts } from '@/data/blog';
 import { PortfolioItem, defaultPortfolio } from '@/data/portfolio';
+import { apiUrl } from '@/lib/api';
 
 type ContentState = {
   posts: BlogPost[];
@@ -79,8 +80,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     try {
       setIsLoading(true);
       const [postsRes, portfolioRes] = await Promise.allSettled([
-        fetch('/api/posts?all=true'),
-        fetch('/api/portfolio?all=true'),
+        fetch(apiUrl('/api/posts?all=true')),
+        fetch(apiUrl('/api/portfolio?all=true')),
       ]);
 
       if (postsRes.status === 'fulfilled' && postsRes.value.ok) {
@@ -115,7 +116,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
 
     try {
-      await fetch('/api/posts', {
+      await fetch(apiUrl('/api/posts'), {
         method: 'POST',
         headers: getAdminHeaders(),
         body: JSON.stringify(post),
@@ -129,7 +130,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     setPostsState((prev) => prev.filter((p) => p.id !== id));
 
     try {
-      await fetch(`/api/posts/${encodeURIComponent(id)}`, {
+      await fetch(apiUrl(`/api/posts/${encodeURIComponent(id)}`), {
         method: 'DELETE',
         headers: getAdminHeaders(),
       });
@@ -145,7 +146,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
 
     try {
-      await fetch('/api/portfolio', {
+      await fetch(apiUrl('/api/portfolio'), {
         method: 'POST',
         headers: getAdminHeaders(),
         body: JSON.stringify(item),
@@ -159,7 +160,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     setPortfolioState((prev) => prev.filter((p) => p.id !== id));
 
     try {
-      await fetch(`/api/portfolio/${encodeURIComponent(id)}`, {
+      await fetch(apiUrl(`/api/portfolio/${encodeURIComponent(id)}`), {
         method: 'DELETE',
         headers: getAdminHeaders(),
       });

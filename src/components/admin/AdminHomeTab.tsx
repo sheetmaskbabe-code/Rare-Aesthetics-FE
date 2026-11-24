@@ -12,6 +12,7 @@ import {
   Trash2,
   Star,
 } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 export type HeroSlide = {
   title: string;
@@ -124,7 +125,7 @@ export function AdminHomeTab() {
   const fetchHomeContent = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/home');
+      const res = await fetch(apiUrl('/api/home'));
       if (res.ok) {
         const json = await res.json();
         if (json.home) {
@@ -190,7 +191,7 @@ export function AdminHomeTab() {
     try {
       setSaving(true);
       const token = sessionStorage.getItem('mra_admin_token');
-      const res = await fetch('/api/home', {
+      const res = await fetch(apiUrl('/api/home'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

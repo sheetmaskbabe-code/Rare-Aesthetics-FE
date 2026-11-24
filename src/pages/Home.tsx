@@ -14,6 +14,7 @@ import { processSteps } from '@/data/process';
 import { faqs } from '@/data/faq';
 import { siteConfig } from '@/data/site';
 import { useContent } from '@/context/ContentContext';
+import { apiUrl } from '@/lib/api';
 
 import heroImg1 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40.jpeg';
 import heroImg2 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40 (1).jpeg';
@@ -101,7 +102,7 @@ export function Home() {
   const [servicesList, setServicesList] = useState<any[]>(services);
 
   useEffect(() => {
-    fetch('/api/home')
+    fetch(apiUrl('/api/home'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.home) {
@@ -110,7 +111,7 @@ export function Home() {
       })
       .catch((err) => console.warn('[Home] Using default home layout:', err));
 
-    fetch('/api/services-content')
+    fetch(apiUrl('/api/services-content'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content?.services && data.content.services.length > 0) {

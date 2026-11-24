@@ -6,6 +6,7 @@ import { Seo } from '@/components/ui/Seo';
 import { Button } from '@/components/ui/button';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { usePageHeader } from '@/hooks/usePageHeader';
+import { apiUrl } from '@/lib/api';
 import { processChapters } from '@/data/process';
 
 const processSlides = [
@@ -230,7 +231,7 @@ export function Process() {
   });
 
   useEffect(() => {
-    fetch('/api/process-content')
+    fetch(apiUrl('/api/process-content'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content) {

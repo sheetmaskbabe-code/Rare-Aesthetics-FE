@@ -7,6 +7,7 @@ import { FinalCta } from '@/components/FinalCta';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { siteConfig } from '@/data/site';
 import { usePageHeader } from '@/hooks/usePageHeader';
+import { apiUrl } from '@/lib/api';
 import founderImage from '@/images/WhatsApp Image 2026-11-21 at 16.09.57.jpeg';
 
 const aboutSlides = [
@@ -82,7 +83,7 @@ export function About() {
   } | null>(null);
 
   useEffect(() => {
-    fetch('/api/about')
+    fetch(apiUrl('/api/about'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.about) {

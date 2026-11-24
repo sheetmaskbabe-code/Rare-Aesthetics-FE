@@ -9,6 +9,7 @@ import { Component as LuminaInteractiveList } from '@/components/ui/lumina-inter
 import { usePageHeader } from '@/hooks/usePageHeader';
 import formulationImage from '@/images/WhatsApp Image 2026-11-19 at 16.29.40 (1).jpeg';
 import { services as defaultServices } from '@/data/services';
+import { apiUrl } from '@/lib/api';
 
 const serviceSlides = [
   {
@@ -70,7 +71,7 @@ export function Services() {
   });
 
   useEffect(() => {
-    fetch('/api/services-content')
+    fetch(apiUrl('/api/services-content'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content) {

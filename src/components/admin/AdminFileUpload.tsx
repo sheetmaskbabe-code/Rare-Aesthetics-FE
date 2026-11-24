@@ -1,5 +1,6 @@
 import { useState, ChangeEvent, DragEvent } from 'react';
 import { Upload, Loader2, CheckCircle2, AlertCircle, File, Pencil, Trash2, ExternalLink } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 type AdminFileUploadProps = {
   folder: 'blogs' | 'portfolio' | 'media' | 'enquiries' | 'general';
@@ -42,7 +43,7 @@ export function AdminFileUpload({
       formData.append('folder', folder);
 
       const token = sessionStorage.getItem('mra_admin_token');
-      const res = await fetch('/api/upload', {
+      const res = await fetch(apiUrl('/api/upload'), {
         method: 'POST',
         headers: {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),

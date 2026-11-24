@@ -11,6 +11,7 @@ import {
   Folder,
   RefreshCw,
 } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 export type MediaItem = {
   id: string;
@@ -37,7 +38,7 @@ export function AdminMediaTab({ onMediaCountChange }: AdminMediaTabProps) {
   const fetchMedia = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/upload');
+      const res = await fetch(apiUrl('/api/upload'));
       if (res.ok) {
         const data = await res.json();
         const items = data.media || [];
@@ -69,7 +70,7 @@ export function AdminMediaTab({ onMediaCountChange }: AdminMediaTabProps) {
     try {
       const token = sessionStorage.getItem('mra_admin_token');
       const targetId = item.id || item.publicId;
-      await fetch(`/api/upload/${encodeURIComponent(targetId || '')}`, {
+      await fetch(apiUrl(`/api/upload/${encodeURIComponent(targetId || '')}`), {
         method: 'DELETE',
         headers: {
           'x-admin-key': 'Rare1357',

@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Settings, Save, Sparkles, Phone, Mail, MapPin, Globe } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 export type SiteSettingsData = {
   brandName: string;
@@ -42,7 +43,7 @@ export function AdminSettingsTab() {
     async function loadSettings() {
       try {
         setLoading(true);
-        const res = await fetch('/api/settings');
+        const res = await fetch(apiUrl('/api/settings'));
         if (res.ok) {
           const data = await res.json();
           if (data.settings) {
@@ -63,7 +64,7 @@ export function AdminSettingsTab() {
     try {
       setSaving(true);
       const token = sessionStorage.getItem('mra_admin_token');
-      const res = await fetch('/api/settings', {
+      const res = await fetch(apiUrl('/api/settings'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

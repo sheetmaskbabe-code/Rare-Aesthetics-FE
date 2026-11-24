@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { ServiceIcon } from '@/components/ServiceIcon';
 import { services as defaultServices } from '@/data/services';
+import { apiUrl } from '@/lib/api';
 
 export function ServiceDetail() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export function ServiceDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/services-content')
+    fetch(apiUrl('/api/services-content'))
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content?.services && data.content.services.length > 0) {

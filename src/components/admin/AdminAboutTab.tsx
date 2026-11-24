@@ -2,6 +2,7 @@ import { useState, useEffect, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { AdminFileUpload } from './AdminFileUpload';
 import { Check, Save, User, Building, Compass, Sparkles } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 export type AboutPageData = {
   companyEyebrow: string;
@@ -76,7 +77,7 @@ export function AdminAboutTab() {
   const fetchAboutContent = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/about');
+      const res = await fetch(apiUrl('/api/about'));
       if (res.ok) {
         const json = await res.json();
         if (json.about) {
@@ -102,7 +103,7 @@ export function AdminAboutTab() {
     try {
       setSaving(true);
       const token = sessionStorage.getItem('mra_admin_token');
-      const res = await fetch('/api/about', {
+      const res = await fetch(apiUrl('/api/about'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
