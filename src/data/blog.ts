@@ -9,6 +9,7 @@ export type BlogPost = {
   imagePublicId?: string;
   content: string;
   published: boolean;
+  type?: 'article' | 'blog';
 };
 
 export const defaultBlogPosts: BlogPost[] = [];

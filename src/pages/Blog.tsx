@@ -56,7 +56,7 @@ const blogSlides = [
 export function Blog() {
   const slides = usePageHeader('blog', blogSlides);
   const { posts } = useContent();
-  const published = posts.filter((p) => p.published);
+  const published = posts.filter((p) => p.published && p.type === 'blog');
 
   return (
     <>

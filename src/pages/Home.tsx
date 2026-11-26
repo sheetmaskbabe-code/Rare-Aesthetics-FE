@@ -82,7 +82,9 @@ const getCachedHomeData = () => {
 
 export function Home() {
   const { posts, portfolio } = useContent();
-  const publishedPosts = posts.filter((p) => p.published).slice(0, 5);
+  const publishedPosts = posts
+    .filter((p) => p.published && (p.type === 'article' || !p.type))
+    .slice(0, 5);
   const publishedPortfolio = portfolio.filter((p) => p.published).slice(0, 6);
 
   const [homeData, setHomeData] = useState<{

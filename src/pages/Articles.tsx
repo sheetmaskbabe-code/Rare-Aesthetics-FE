@@ -49,7 +49,7 @@ const articleSlides = [
 export function Articles() {
   const slides = usePageHeader('articles', articleSlides);
   const { posts } = useContent();
-  const published = posts.filter((p) => p.published);
+  const published = posts.filter((p) => p.published && (p.type === 'article' || !p.type));
 
   return (
     <>
