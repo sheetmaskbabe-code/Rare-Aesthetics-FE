@@ -103,16 +103,26 @@ export function Home() {
   const [servicesList, setServicesList] = useState<any[]>(services);
 
   useEffect(() => {
-    fetch(apiUrl('/api/home'))
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data?.home) {
-          setHomeData(data.home);
-        }
+    const loadHomeData = () => {
+      fetch(apiUrl(`/api/home?_t=${Date.now()}`), {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
       })
-      .catch((err) => console.warn('[Home] Using default home layout:', err));
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.home) {
+            setHomeData(data.home);
+          }
+        })
+        .catch((err) => console.warn('[Home] Using default home layout:', err));
+    };
 
-    fetch(apiUrl('/api/services-content'))
+    loadHomeData();
+
+    fetch(apiUrl(`/api/services-content?_t=${Date.now()}`), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+    })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content?.services && data.content.services.length > 0) {
@@ -120,6 +130,21 @@ export function Home() {
         }
       })
       .catch((err) => console.warn('[Home] Using default services layout:', err));
+
+    // Automatically re-sync whenever user focuses or switches back to this tab
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadHomeData();
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', loadHomeData);
+
+    return () => {
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', loadHomeData);
+    };
   }, []);
 
   // Compute dynamic slides: overlay custom titles/descriptions/images on top of defaults
