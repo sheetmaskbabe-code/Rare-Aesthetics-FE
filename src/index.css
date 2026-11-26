@@ -241,10 +241,16 @@
 }
 
 /* Mobile: shift hero copy slightly lower toward the CTAs;
-   drop the heavy top/bottom black overlays */
+   keep bottom black shade, remove top black fade */
 @media (max-width: 640px) {
   .slider-wrapper::after {
-    background: none;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 45%,
+      rgba(10, 10, 10, 0.35) 70%,
+      rgba(10, 10, 10, 0.85) 100%
+    );
   }
 
   .slide-content {
