@@ -136,7 +136,7 @@ export function Blog() {
                       {/* Card Footer */}
                       <div className="mt-6 flex items-center justify-between border-t border-plum/10 pt-4">
                         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-plum transition-all duration-300 group-hover:gap-2.5 group-hover:text-deep-blue">
-                          Read article <ArrowRight className="h-4 w-4" />
+                          Read blog <ArrowRight className="h-4 w-4" />
                         </span>
                         <span className="text-xs uppercase tracking-wider text-dark-plum/50 font-medium">
                           Rare Aesthetics
