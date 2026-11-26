@@ -56,6 +56,18 @@ const aboutSlides = [
   },
 ];
 
+const ABOUT_CACHE_KEY = 'mra_about_cache';
+
+const getCachedAboutData = () => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(ABOUT_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
+
 export function About() {
   const slides = usePageHeader('about', aboutSlides);
   const [aboutData, setAboutData] = useState<{
@@ -81,17 +93,23 @@ export function About() {
     philosophyTitle?: string;
     philosophyDescription?: string;
     philosophyPoints?: string[];
-  } | null>(null);
+  } | null>(getCachedAboutData);
 
   useEffect(() => {
-    fetch(apiUrl('/api/about'))
+    fetch(apiUrl(`/api/about?_t=${Date.now()}`), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' },
+    })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.about) {
           setAboutData(data.about);
+          try {
+            localStorage.setItem(ABOUT_CACHE_KEY, JSON.stringify(data.about));
+          } catch {}
         }
       })
-      .catch((err) => console.warn('[About] Using default content:', err));
+      .catch((err) => console.warn('[About] Using cached content:', err));
   }, []);
 
   return (
@@ -123,10 +141,7 @@ export function About() {
             <Reveal>
               <div className="aspect-[4/5] overflow-hidden rounded-sm bg-orchid/30 shadow-md">
                 <img
-                  src={
-                    aboutData?.companyImage ||
-                    'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1200&q=80'
-                  }
+                  src={aboutData?.companyImage || '/images/why-us-lab.png'}
                   alt="Laboratory-inspired cosmetic development atmosphere"
                   className="h-full w-full object-cover"
                 />
@@ -197,7 +212,7 @@ export function About() {
           <Reveal delay={0.1}>
             <div className="overflow-hidden rounded-sm border border-plum/20 bg-lavender/60 shadow-md">
               <img
-                src={aboutData?.founderImage || founderImage}
+                src={aboutData?.founderImage || '/images/director.jpg'}
                 alt="Lindi-Grace — Cosmetic Chemist, Beauty Innovator & Founder"
                 className="aspect-[4/5] w-full object-cover object-top"
               />

@@ -28,33 +28,30 @@ const heroSlides = [
     title: 'Ethereal Formulations',
     description:
       'Transforming innovative cosmetic ideas into thoughtfully developed beauty products through formulation and research.',
-    media: heroImg1,
+    media: '/images/process-bottles.jpg',
   },
   {
     title: 'Rose Mirage',
     description:
       'Where science meets the art of beauty — clinical cosmetic chemistry tailored for discerning founders and brands.',
-    media: heroImg2,
+    media: '/images/mra-products.jpg',
   },
   {
     title: 'Velvet Mystique',
     description:
       'Sensory-rich textures engineered with high-potency bio-compatible actives and premium sensory elegance.',
-    media: heroImg3,
+    media: '/images/custom-bottles.jpg',
   },
   {
     title: 'Signature Sheet Masks',
     description:
       'Targeted skincare innovation and thoughtfully developed sheet mask treatments crafted for discerning beauty founders.',
-    media: featureImg,
+    media: '/images/mra-sheetmasks.jpg',
   },
 ];
 
-const heroImage =
-  'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1600&q=80';
-const aboutImage =
-  'https://res.cloudinary.com/v4fs2klq/image/upload/v1795303787/rare_aesthetics/about/nuxs3wwtrhn7r8bdlcvh.jpg';
-const featureImage = featureImg;
+const aboutImage = '/images/director.jpg';
+const featureImage = '/images/mra-sheetmasks.jpg';
 
 const whyPoints = [
   'Integrated product development support',
@@ -64,6 +61,18 @@ const whyPoints = [
   'Project coordination',
   'Quality-focused processes',
 ];
+
+const HOME_CACHE_KEY = 'mra_home_cache';
+
+const getCachedHomeData = () => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(HOME_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
 export function Home() {
   const { posts, portfolio } = useContent();
@@ -98,9 +107,22 @@ export function Home() {
       role?: string;
       rating?: number;
     }[];
-  } | null>(null);
+  } | null>(getCachedHomeData);
 
-  const [servicesList, setServicesList] = useState<any[]>(services);
+  const [servicesList, setServicesList] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = localStorage.getItem('mra_services_cache');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed?.services && Array.isArray(parsed.services) && parsed.services.length > 0) {
+            return parsed.services;
+          }
+        }
+      } catch {}
+    }
+    return services;
+  });
 
   useEffect(() => {
     const loadHomeData = () => {
@@ -112,9 +134,12 @@ export function Home() {
         .then((data) => {
           if (data?.home) {
             setHomeData(data.home);
+            try {
+              localStorage.setItem(HOME_CACHE_KEY, JSON.stringify(data.home));
+            } catch {}
           }
         })
-        .catch((err) => console.warn('[Home] Using default home layout:', err));
+        .catch((err) => console.warn('[Home] Using cached home layout:', err));
     };
 
     loadHomeData();
@@ -127,6 +152,9 @@ export function Home() {
       .then((data) => {
         if (data?.content?.services && data.content.services.length > 0) {
           setServicesList(data.content.services);
+          try {
+            localStorage.setItem('mra_services_cache', JSON.stringify(data.content));
+          } catch {}
         }
       })
       .catch((err) => console.warn('[Home] Using default services layout:', err));
@@ -153,7 +181,7 @@ export function Home() {
       (slide, idx) => ({
         title: slide.title || heroSlides[idx]?.title || 'Ethereal Formulations',
         description: slide.description || heroSlides[idx]?.description || '',
-        media: slide.media || heroSlides[idx]?.media || heroImg1,
+        media: slide.media || heroSlides[idx]?.media || '/images/process-bottles.jpg',
       })
     );
   }, [homeData?.heroSlides]);
@@ -562,14 +590,7 @@ export function Home() {
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="mx-auto mt-12 max-w-3xl border border-dashed border-plum/25 bg-white/40 px-8 py-14 text-center">
-              <p className="font-alt text-lg text-dark-plum/60 italic">
-                {homeData?.testimonialsPlaceholder ||
-                  '“Testimonials placeholder — publish only client-approved quotes.”'}
-              </p>
-            </div>
-          )}
+          ) : null}
         </Reveal>
       </Section>
 
@@ -596,7 +617,7 @@ export function Home() {
                       alt={post.title}
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = heroImage;
+                        (e.target as HTMLImageElement).src = '/images/process-bottles.jpg';
                       }}
                       loading="lazy"
                     />

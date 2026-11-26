@@ -58,25 +58,41 @@ const serviceSlides = [
 
 export function Services() {
   const slides = usePageHeader('services', serviceSlides);
+  const SERVICES_CACHE_KEY = 'mra_services_cache';
+
   const [content, setContent] = useState<{
     eyebrow?: string;
     title?: string;
     description?: string;
     services?: any[];
-  }>({
-    eyebrow: 'Our Capabilities',
-    title: 'End-to-End Cosmetic Development',
-    description:
-      'Explore our specialized formulation, evaluation, regulatory, and production coordination services.',
-    services: defaultServices,
+  }>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = localStorage.getItem(SERVICES_CACHE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') return parsed;
+        }
+      } catch {}
+    }
+    return {
+      eyebrow: 'Our Capabilities',
+      title: 'End-to-End Cosmetic Development',
+      description:
+        'Explore our specialized formulation, evaluation, regulatory, and production coordination services.',
+      services: defaultServices,
+    };
   });
 
   useEffect(() => {
-    fetch(apiUrl('/api/services-content'))
+    fetch(apiUrl(`/api/services-content?_t=${Date.now()}`), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' },
+    })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.content) {
-          setContent({
+          const newContent = {
             eyebrow: data.content.eyebrow || 'Our Capabilities',
             title: data.content.title || 'End-to-End Cosmetic Development',
             description:
@@ -86,10 +102,14 @@ export function Services() {
               data.content.services && data.content.services.length > 0
                 ? data.content.services
                 : defaultServices,
-          });
+          };
+          setContent(newContent);
+          try {
+            localStorage.setItem(SERVICES_CACHE_KEY, JSON.stringify(newContent));
+          } catch {}
         }
       })
-      .catch((err) => console.warn('[Services] Fallback to default:', err));
+      .catch((err) => console.warn('[Services] Fallback to cached content:', err));
   }, []);
 
   const serviceList = content.services && content.services.length > 0 ? content.services : defaultServices;
