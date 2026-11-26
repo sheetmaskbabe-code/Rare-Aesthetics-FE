@@ -9,6 +9,7 @@ import { FinalCta } from '@/components/FinalCta';
 import { Accordion } from '@/components/ui/Accordion';
 import { ServiceIcon } from '@/components/ServiceIcon';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
+import { TestimonialsSlider } from '@/components/TestimonialsSlider';
 import { services } from '@/data/services';
 import { processSteps } from '@/data/process';
 import { faqs } from '@/data/faq';
@@ -567,29 +568,7 @@ export function Home() {
         </Reveal>
         <Reveal delay={0.1}>
           {homeData?.testimonials && homeData.testimonials.length > 0 ? (
-            <div className="mx-auto mt-12 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {homeData.testimonials.map((t, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col justify-between rounded-xl border border-plum/15 bg-white/70 p-6 shadow-sm backdrop-blur-sm transition-all hover:border-plum/30 hover:shadow-md"
-                >
-                  <div>
-                    <div className="flex items-center gap-1 text-amber-500 mb-3">
-                      {Array.from({ length: t.rating || 5 }).map((_, rIdx) => (
-                        <span key={rIdx} className="text-sm">★</span>
-                      ))}
-                    </div>
-                    <p className="font-alt text-base leading-relaxed text-dark-plum/80 italic">
-                      “{t.quote}”
-                    </p>
-                  </div>
-                  <div className="mt-6 border-t border-plum/10 pt-4">
-                    <p className="font-heading font-bold text-sm text-plum">{t.author}</p>
-                    {t.role && <p className="text-xs text-dark-plum/60">{t.role}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <TestimonialsSlider testimonials={homeData.testimonials} />
           ) : null}
         </Reveal>
       </Section>
