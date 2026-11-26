@@ -151,7 +151,7 @@ export function Home() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
             <Button
               to={homeData?.heroCtaPrimaryLink || '/services'}
-              className="bg-[#d5b2dd] text-[#0a0a0a] hover:bg-[#c79ece] border-none font-medium px-6 py-3 shadow-lg transition-transform hover:scale-[1.02]"
+              className="bg-[#8524F9] text-white hover:bg-[#731bd9] border-none font-medium px-6 py-3 shadow-lg transition-transform hover:scale-[1.02]"
             >
               {homeData?.heroCtaPrimaryText || 'Explore Our Services'}
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -162,7 +162,7 @@ export function Home() {
               className="border-white/30 text-white hover:bg-white/15 hover:text-white backdrop-blur-md px-6 py-3 transition-transform hover:scale-[1.02]"
             >
               {homeData?.heroCtaSecondaryText || 'Book a Consultation'}
-              <Sparkles className="ml-2 h-4 w-4 text-[#d5b2dd]" />
+              <Sparkles className="ml-2 h-4 w-4 text-[#8524F9]" />
             </Button>
           </div>
         </LuminaInteractiveList>

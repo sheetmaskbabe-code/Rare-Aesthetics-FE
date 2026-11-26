@@ -94,8 +94,8 @@ export function AdminHeader({ activeTab, onTabChange, onSignOut, counts, health 
               onClick={() => onTabChange(tab.id)}
               className={`flex items-center gap-2 rounded-sm px-4 py-2.5 text-xs font-semibold tracking-wide transition-all ${
                 isActive
-                  ? 'bg-[#9810FA] text-white shadow-md shadow-[#9810FA]/25'
-                  : 'bg-white/70 text-dark-plum hover:bg-[#9810FA]/10 hover:text-[#9810FA]'
+                  ? 'bg-[#8524F9] text-white shadow-md shadow-[#8524F9]/25'
+                  : 'bg-white/70 text-dark-plum hover:bg-[#8524F9]/10 hover:text-[#8524F9]'
               }`}
             >
               <Icon className="h-4 w-4" />
@@ -103,7 +103,7 @@ export function AdminHeader({ activeTab, onTabChange, onSignOut, counts, health 
               {typeof tab.count === 'number' && (
                 <span
                   className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
-                    isActive ? 'bg-white text-[#9810FA]' : 'bg-[#9810FA]/15 text-[#9810FA]'
+                    isActive ? 'bg-white text-[#8524F9]' : 'bg-[#8524F9]/15 text-[#8524F9]'
                   }`}
                 >
                   {tab.count}

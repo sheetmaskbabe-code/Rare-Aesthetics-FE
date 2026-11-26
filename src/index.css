@@ -357,80 +357,80 @@
 }
 
 /* =========================================================
-   ADMIN PORTAL ACCENT THEME: #9810FA
+   ADMIN PORTAL ACCENT THEME: #8524F9
    Replaces previous lavender / orchid / plum accents with
-   vibrant #9810FA for active tabs, primary buttons, badges,
+   vibrant #8524F9 for active tabs, primary buttons, badges,
    and focus states.
    ========================================================= */
 .admin-portal {
-  --admin-accent: #9810fa;
-  --admin-accent-hover: #820dd6;
-  --admin-accent-light: rgba(152, 16, 250, 0.14);
-  --admin-accent-border: rgba(152, 16, 250, 0.35);
+  --admin-accent: #8524f9;
+  --admin-accent-hover: #731bd9;
+  --admin-accent-light: rgba(133, 36, 249, 0.14);
+  --admin-accent-border: rgba(133, 36, 249, 0.35);
 }
 
 .admin-portal .bg-plum {
-  background-color: #9810fa !important;
+  background-color: #8524f9 !important;
   color: #ffffff !important;
 }
 
 .admin-portal .bg-plum:hover {
-  background-color: #820dd6 !important;
+  background-color: #731bd9 !important;
 }
 
 .admin-portal .hover\:bg-plum\/90:hover {
-  background-color: #820dd6 !important;
+  background-color: #731bd9 !important;
 }
 
 .admin-portal .text-plum {
-  color: #9810fa !important;
+  color: #8524f9 !important;
 }
 
 .admin-portal .border-plum {
-  border-color: #9810fa !important;
+  border-color: #8524f9 !important;
 }
 
 .admin-portal .ring-plum {
-  --tw-ring-color: #9810fa !important;
+  --tw-ring-color: #8524f9 !important;
 }
 
 .admin-portal .bg-orchid\/20 {
-  background-color: rgba(152, 16, 250, 0.14) !important;
+  background-color: rgba(133, 36, 249, 0.14) !important;
 }
 
 .admin-portal .bg-orchid {
-  background-color: #9810fa !important;
+  background-color: #8524f9 !important;
   color: #ffffff !important;
 }
 
 .admin-portal .bg-orchid:hover {
-  background-color: #820dd6 !important;
+  background-color: #731bd9 !important;
 }
 
 .admin-portal .text-orchid {
-  color: #9810fa !important;
+  color: #8524f9 !important;
 }
 
 .admin-portal .border-orchid\/20,
 .admin-portal .border-orchid\/30 {
-  border-color: rgba(152, 16, 250, 0.3) !important;
+  border-color: rgba(133, 36, 249, 0.3) !important;
 }
 
 .admin-portal input:focus,
 .admin-portal textarea:focus,
 .admin-portal select:focus {
-  border-color: #9810fa !important;
+  border-color: #8524f9 !important;
   outline: none !important;
-  box-shadow: 0 0 0 1px #9810fa !important;
+  box-shadow: 0 0 0 1px #8524f9 !important;
 }
 
 .admin-portal button[type="submit"]:not([class*="bg-red"]):not([class*="bg-rose"]) {
-  background-color: #9810fa !important;
+  background-color: #8524f9 !important;
   color: #ffffff !important;
 }
 
 .admin-portal button[type="submit"]:not([class*="bg-red"]):not([class*="bg-rose"]):hover {
-  background-color: #820dd6 !important;
+  background-color: #731bd9 !important;
 }
 
 

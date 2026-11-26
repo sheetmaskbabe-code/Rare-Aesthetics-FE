@@ -203,7 +203,7 @@ export function AdminAuth({ onSuccess }: AdminAuthProps) {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 bg-[#9810FA] hover:bg-[#9810FA]/90 text-white font-semibold shadow-md shadow-[#9810FA]/30 transition-all cursor-pointer"
+                className="w-full mt-2 bg-[#8524F9] hover:bg-[#8524F9]/90 text-white font-semibold shadow-md shadow-[#8524F9]/30 transition-all cursor-pointer"
               >
                 {loading ? 'Verifying & Sending Code...' : 'Sign In to Admin Portal'}
               </Button>
@@ -235,7 +235,7 @@ export function AdminAuth({ onSuccess }: AdminAuthProps) {
               <Button
                 type="submit"
                 disabled={loading || otp.length < 6}
-                className="w-full bg-[#9810FA] hover:bg-[#9810FA]/90 text-white font-semibold shadow-md shadow-[#9810FA]/30 transition-all cursor-pointer disabled:opacity-50"
+                className="w-full bg-[#8524F9] hover:bg-[#8524F9]/90 text-white font-semibold shadow-md shadow-[#8524F9]/30 transition-all cursor-pointer disabled:opacity-50"
               >
                 {loading ? 'Verifying Code...' : 'Verify Code & Access CMS'}
               </Button>

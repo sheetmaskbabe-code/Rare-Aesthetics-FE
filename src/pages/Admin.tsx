@@ -209,14 +209,14 @@ export function Admin() {
       {/* Standalone Admin Top Banner */}
       <div className="bg-[#35213B] text-lavender border-b border-white/10 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#9810FA]/20 text-[#9810FA]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[#8524F9]/20 text-[#8524F9]">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div>
             <span className="font-heading font-bold text-sm tracking-wide text-white">
               MY RARE AESTHETICS
             </span>
-            <span className="ml-2 rounded bg-[#9810FA] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
+            <span className="ml-2 rounded bg-[#8524F9] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
               CMS Portal
             </span>
           </div>
@@ -227,7 +227,7 @@ export function Admin() {
           target="_blank"
           className="inline-flex items-center gap-1.5 rounded-sm border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-medium text-lavender hover:bg-white/15 transition-all"
         >
-          <Globe className="h-3.5 w-3.5 text-[#9810FA]" />
+          <Globe className="h-3.5 w-3.5 text-[#8524F9]" />
           <span>View Live Website ↗</span>
         </Link>
       </div>

@@ -105,7 +105,7 @@ export function Navbar() {
           </a>
           <Button
             to="/book"
-            className="!py-2.5 !px-5 text-[13px] bg-[#d5b2dd] text-black hover:bg-[#c79ece] border-none font-medium transition-transform hover:scale-[1.02]"
+            className="!py-2.5 !px-5 text-[13px] bg-[#8524F9] text-white hover:bg-[#731bd9] border-none font-medium transition-transform hover:scale-[1.02]"
           >
             Book a Consultation
           </Button>
@@ -158,7 +158,7 @@ export function Navbar() {
                 Make a Payment
               </a>
               <div className="mt-3 px-1">
-                <Button to="/book" className="w-full bg-[#d5b2dd] text-black hover:bg-[#c79ece] border-none">
+                <Button to="/book" className="w-full bg-[#8524F9] text-white hover:bg-[#731bd9] border-none">
                   Book a Consultation
                 </Button>
               </div>
