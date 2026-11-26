@@ -433,4 +433,26 @@
   background-color: #731bd9 !important;
 }
 
+/* Testimonials Infinite Marquee (Continuous Forward Glide - No Back-Slide) */
+@keyframes testimonial-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.testimonials-scroll-track {
+  display: flex;
+  width: max-content;
+  animation: testimonial-scroll var(--marquee-duration, 35s) linear infinite;
+  will-change: transform;
+}
+
+.testimonials-scroll-track:hover {
+  animation-play-state: paused;
+}
+
+
 
