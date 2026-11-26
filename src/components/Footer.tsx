@@ -93,6 +93,7 @@ export function Footer() {
                 ['Process', '/process'],
                 ['Portfolio', '/portfolio'],
                 ['Articles', '/articles'],
+                ['Blog', '/blog'],
                 ['FAQ', '/faq'],
                 ['Contact', '/contact'],
               ].map(([label, href]) => (
