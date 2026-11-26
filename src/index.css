@@ -429,6 +429,15 @@
   color: #ffffff !important;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .admin-portal button[type="submit"]:not([class*="bg-red"]):not([class*="bg-rose"]):hover {
   background-color: #731bd9 !important;
 }
