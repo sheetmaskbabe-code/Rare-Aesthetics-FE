@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Calendar, Clock, Sparkles } from 'lucide-react';
 import { Section } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
@@ -117,10 +117,16 @@ function renderContent(rawContent: string) {
 
 export function BlogPost() {
   const { slug } = useParams();
+  const location = useLocation();
   const { posts } = useContent();
   const post = posts.find((p) => p.slug === slug && p.published);
+  const onBlogRoute = location.pathname.startsWith('/blog');
 
-  if (!post) return <Navigate to="/articles" replace />;
+  const isBlog = post?.type === 'blog' || onBlogRoute;
+  const listPath = isBlog ? '/blog' : '/articles';
+  const listLabel = isBlog ? 'Blog' : 'Articles';
+
+  if (!post) return <Navigate to={listPath} replace />;
 
   const wordCount = post.content ? post.content.split(/\s+/).length : 200;
   const readMinutes = Math.max(2, Math.ceil(wordCount / 220));
@@ -136,8 +142,8 @@ export function BlogPost() {
         keywords={[post.title, 'cosmetic formulation blog', 'beauty insights', ...CORE_KEYWORDS]}
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Articles', path: '/articles' },
-          { name: post.title, path: `/articles/${post.slug}` },
+          { name: listLabel, path: listPath },
+          { name: post.title, path: `${listPath}/${post.slug}` },
         ]}
         schema={{
           '@context': 'https://schema.org',
@@ -146,7 +152,7 @@ export function BlogPost() {
           description: post.excerpt,
           image: post.image,
           datePublished: post.date,
-          mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+          mainEntityOfPage: `${SITE_URL}${listPath}/${post.slug}`,
           author: {
             '@type': 'Person',
             name: 'Lindi-Grace',
@@ -166,10 +172,10 @@ export function BlogPost() {
         <div className="bg-hero-mesh border-b border-plum/10">
           <div className="mx-auto max-w-4xl px-5 pb-12 pt-32 sm:px-8 md:pt-40">
             <Link
-              to="/articles"
+              to={listPath}
               className="inline-flex items-center gap-2 text-sm font-medium text-deep-blue transition hover:text-plum"
             >
-              <ArrowLeft className="h-4 w-4" /> Back to all articles
+              <ArrowLeft className="h-4 w-4" /> Back to {listLabel.toLowerCase()}
             </Link>
 
             <Reveal>
@@ -224,25 +230,42 @@ export function BlogPost() {
                 {renderContent(post.content)}
               </div>
 
-              {/* Consultation / Next Steps Box inside the article */}
-              <div className="mt-14 rounded-xl border border-plum/15 bg-lavender/40 p-8 text-center sm:p-10">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-plum text-lavender mb-4 shadow-sm">
-                  <Sparkles className="h-6 w-6" />
-                </div>
-                <h3 className="font-heading text-2xl font-medium text-plum">
-                  Ready to Turn Your Beauty Vision into Reality?
-                </h3>
-                <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-dark-plum/75">
-                  Partner with Rare Aesthetics for science-backed cosmetic formulation, ingredient research, and market-ready beauty innovation.
-                </p>
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-                  <Button to="/book-consultation" variant="primary">
-                    Book a Consultation
-                  </Button>
-                  <Button to="/articles" variant="ghost">
-                    Explore More Articles <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
+              {/* Click Here Action Button */}
+              <div className="mt-12 flex justify-center">
+                {(() => {
+                  const href = (post.link || '/book-consultation').trim();
+                  const label = post.buttonText || 'Click here';
+                  const isExternal =
+                    href.startsWith('http://') ||
+                    href.startsWith('https://') ||
+                    href.startsWith('mailto:') ||
+                    href.startsWith('tel:');
+
+                  if (isExternal) {
+                    return (
+                      <a
+                        href={href}
+                        target={href.startsWith('http') ? '_blank' : undefined}
+                        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="inline-flex items-center gap-2.5 rounded-full bg-plum px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-plum/20 transition-all duration-200 hover:bg-plum/90 hover:scale-[1.02] active:scale-[0.98]"
+                      >
+                        <span>{label}</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <Button
+                      to={href.startsWith('/') ? href : `/${href}`}
+                      variant="primary"
+                      className="px-8 py-3.5 text-base shadow-lg shadow-plum/20"
+                    >
+                      <span>{label}</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  );
+                })()}
               </div>
             </div>
           </Reveal>

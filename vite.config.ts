@@ -14,15 +14,15 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
+      // Use local backend so article button link/buttonText persist during development.
+      // Redeploy api.rareaestheticsgroup.com before relying on the production API for these fields.
       '/api': {
-        target: 'https://api.rareaestheticsgroup.com',
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: true,
       },
       '/images': {
-        target: 'https://api.rareaestheticsgroup.com',
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        secure: true,
       },
     },
   },

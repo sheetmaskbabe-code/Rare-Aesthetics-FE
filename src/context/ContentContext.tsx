@@ -87,7 +87,11 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       if (postsRes.status === 'fulfilled' && postsRes.value.ok) {
         const data = await postsRes.value.json();
         if (Array.isArray(data.posts) && data.posts.length > 0) {
-          setPostsState(data.posts);
+          const apiIds = new Set(data.posts.map((p: { id?: string }) => p.id));
+          const missingDefaults = defaultBlogPosts.filter((p) => !apiIds.has(p.id));
+          setPostsState([...data.posts, ...missingDefaults]);
+        } else if (defaultBlogPosts.length > 0) {
+          setPostsState(defaultBlogPosts);
         }
       }
 

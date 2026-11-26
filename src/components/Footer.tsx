@@ -143,6 +143,17 @@ export function Footer() {
           </div>
         </div>
 
+        <div className="mt-12 border-t border-lavender/15 pt-6 text-center text-sm text-lavender/55">
+          Developed by{' '}
+          <a
+            href="https://www.skywebinternational.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lavender/80 transition hover:text-orchid"
+          >
+            Skyweb International
+          </a>
+        </div>
       </div>
     </footer>
   );

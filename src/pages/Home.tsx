@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Section, SectionHeading } from '@/components/ui/Section';
 import { Reveal } from '@/components/ui/Reveal';
@@ -17,6 +17,8 @@ import { siteConfig } from '@/data/site';
 import { pageSeo } from '@/data/seo';
 import { useContent } from '@/context/ContentContext';
 import { apiUrl } from '@/lib/api';
+import { resolvePostLink } from '@/lib/utils';
+import { OKOA_HUB_PATH, okoaArticleCount } from '@/data/okoaArticles';
 
 import heroImg1 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40.jpeg';
 import heroImg2 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40 (1).jpeg';
@@ -208,22 +210,20 @@ export function Home() {
 
       {/* Hero — interactive Lumina WebGL shader showcase */}
       <section className="relative min-h-[100svh] overflow-hidden bg-[#0a0a0a]">
-        <LuminaInteractiveList slides={activeSlides} showNavigation={false}>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+        <LuminaInteractiveList slides={activeSlides} showNavigation={false} showCounter={false}>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Button
               to={homeData?.heroCtaPrimaryLink || '/services'}
-              className="bg-[#8524F9] text-white hover:bg-[#731bd9] border-none font-medium px-6 py-3 shadow-lg transition-transform hover:scale-[1.02]"
+              className="rounded-full border-none bg-[#8524F9] px-7 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#731bd9]"
             >
               {homeData?.heroCtaPrimaryText || 'Explore Our Services'}
-              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
               to={homeData?.heroCtaSecondaryLink || '/book'}
               variant="outline"
-              className="border-white/30 text-white hover:bg-white/15 hover:text-white backdrop-blur-md px-6 py-3 transition-transform hover:scale-[1.02]"
+              className="rounded-full border border-white/35 bg-transparent px-7 py-2.5 text-sm font-medium text-white backdrop-blur-md transition hover:border-white/55 hover:bg-white/10 hover:text-white"
             >
               {homeData?.heroCtaSecondaryText || 'Book a Consultation'}
-              <Sparkles className="ml-2 h-4 w-4 text-[#8524F9]" />
             </Button>
           </div>
         </LuminaInteractiveList>
@@ -590,51 +590,99 @@ export function Home() {
           </div>
         </Reveal>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
-          {publishedPosts.map((post, i) => (
-            <Reveal key={post.id} delay={i * 0.06}>
-              <article className="h-full">
-                <Link
-                  to={`/articles/${post.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/15 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-plum/35 hover:bg-white hover:shadow-xl"
-                >
-                  <div className="img-zoom relative aspect-[16/10] overflow-hidden bg-orchid/20">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/process-bottles.jpg';
-                      }}
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-plum shadow-md backdrop-blur-md">
-                        {post.category}
+          {[...publishedPosts]
+            .sort((a, b) => {
+              const rank = (p: (typeof publishedPosts)[number]) => {
+                const title = (p.title || '').toLowerCase();
+                const link = (p.link || '').toLowerCase();
+                if (title.includes('popsugar') || link.includes('popsugar.com')) return 0;
+                if (title.includes('peptide behind') || link.includes('usatoday.com')) return 1;
+                return 2;
+              };
+              return rank(a) - rank(b);
+            })
+            .map((post, i) => {
+            const link = (post.link || '').toLowerCase();
+            const isPinnedPress =
+              link.includes('popsugar.com') ||
+              link.includes('usatoday.com') ||
+              /popsugar|feel-good award|peptide behind/i.test(post.title || '');
+            const isOkoa =
+              !isPinnedPress &&
+              (link.includes('okoaskin.com') ||
+                /okoa skin articles/i.test(post.title || ''));
+            const resolved = isOkoa
+              ? { href: OKOA_HUB_PATH, isExternal: false }
+              : resolvePostLink(post.link);
+            const { href, isExternal } = resolved;
+            const ctaLabel = isOkoa ? `View ${okoaArticleCount} articles` : post.buttonText || 'Read more';
+            const cardClassName =
+              'group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/15 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-plum/35 hover:bg-white hover:shadow-xl';
+            const cardBody = (
+              <>
+                <div className="img-zoom relative aspect-[16/10] overflow-hidden bg-orchid/20">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/images/process-bottles.jpg';
+                    }}
+                    loading="lazy"
+                  />
+                  <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-plum shadow-md backdrop-blur-md">
+                      {post.category}
+                    </span>
+                    {isOkoa && (
+                      <span className="rounded-full bg-plum px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white shadow-md">
+                        {okoaArticleCount}
                       </span>
-                    </div>
+                    )}
                   </div>
-                  <div className="flex flex-1 flex-col justify-between p-6">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-deep-blue font-medium">
-                        {new Date(post.date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' })}
-                      </p>
-                      <h3 className="mt-2.5 font-heading text-xl font-semibold leading-snug text-plum transition group-hover:text-deep-blue line-clamp-2">
-                        {post.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-dark-plum/70 line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                    </div>
-                    <div className="mt-5 flex items-center justify-between border-t border-plum/10 pt-3">
-                      <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-plum transition-all duration-300 group-hover:gap-2.5 group-hover:text-deep-blue">
-                        Read more <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
+                </div>
+                <div className="flex flex-1 flex-col justify-between p-6">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-deep-blue font-medium">
+                      {new Date(post.date).toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </p>
+                    <h3 className="mt-2.5 font-heading text-xl font-semibold leading-snug text-plum transition group-hover:text-deep-blue line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-dark-plum/70 line-clamp-3">
+                      {post.excerpt}
+                    </p>
                   </div>
-                </Link>
-              </article>
-            </Reveal>
-          ))}
+                  <div className="mt-5 flex items-center justify-between border-t border-plum/10 pt-3">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-plum transition-all duration-300 group-hover:gap-2.5 group-hover:text-deep-blue">
+                      {ctaLabel} <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </div>
+              </>
+            );
+
+            return (
+              <Reveal key={post.id} delay={i * 0.06}>
+                <article className="h-full">
+                  {isExternal ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cardClassName}
+                    >
+                      {cardBody}
+                    </a>
+                  ) : (
+                    <Link to={href} className={cardClassName}>
+                      {cardBody}
+                    </Link>
+                  )}
+                </article>
+              </Reveal>
+            );
+          })}
 
           {/* View all articles action card */}
           <Reveal delay={publishedPosts.length * 0.06}>

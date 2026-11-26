@@ -7,56 +7,49 @@ import { Component as LuminaInteractiveList } from '@/components/ui/lumina-inter
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { useContent } from '@/context/ContentContext';
 import { pageSeo } from '@/data/seo';
+import { defaultBlogPosts, type BlogPost } from '@/data/blog';
 
 const blogSlides = [
   {
-    title: 'Editorial & Insights',
+    title: 'Where Science Meets Beauty Vision',
     description:
-      'Perspectives on cosmetic science, luxury formulation craft, ingredient research, and beauty brand building.',
-    media:
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=2000&q=80',
-  },
-  {
-    title: 'Formulation Notes',
-    description:
-      'Deep dives into biocompatible actives, sensory rheology, and next-generation cosmetic textures.',
-    media:
-      'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=2000&q=80',
-  },
-  {
-    title: 'Ingredient Scrutiny',
-    description:
-      'Evidence-backed analysis of clean chemistry, stability profiles, and clinical efficacy standards.',
-    media:
-      'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=2000&q=80',
-  },
-  {
-    title: 'Brand Innovation',
-    description:
-      'Strategic frameworks for positioning niche and prestige cosmetic brands in competitive retail landscapes.',
-    media:
-      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=2000&q=80',
-  },
-  {
-    title: 'Regulatory Horizons',
-    description:
-      'Navigating evolving cosmetic guidelines, documentation best practices, and compliance protocols.',
-    media:
-      'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=2000&q=80',
-  },
-  {
-    title: 'Behind the Bench',
-    description:
-      'Reflections from cosmetic development laboratories, formulation iterations, and batch scale-ups.',
+      'Editorial notes from Rare Aesthetics — formulation craft, brand building, and the science behind market-ready skincare.',
     media:
       'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=2000&q=80',
   },
+  {
+    title: 'R&D Insights',
+    description:
+      'From ingredient research to clinical validation — perspectives that help founders move with clarity.',
+    media:
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=2000&q=80',
+  },
+  {
+    title: 'Brand Craft',
+    description:
+      'Strategy, positioning, and launch readiness for beauty brands built on authentic science.',
+    media:
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=2000&q=80',
+  },
 ];
+
+function readMinutesFor(post: BlogPost) {
+  const wordCount = post.content ? post.content.split(/\s+/).length : 160;
+  return Math.max(2, Math.ceil(wordCount / 220));
+}
 
 export function Blog() {
   const slides = usePageHeader('blog', blogSlides);
   const { posts } = useContent();
-  const published = posts.filter((p) => p.published && p.type === 'blog');
+  const fromApi = posts.filter((p) => p.published && p.type === 'blog');
+  const published =
+    fromApi.length > 0
+      ? fromApi
+      : defaultBlogPosts.filter((p) => p.published && p.type === 'blog');
+
+  const [featured, ...rest] = [...published].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
     <>
@@ -69,8 +62,8 @@ export function Blog() {
           { name: 'Blog', path: '/blog' },
         ]}
       />
-      {/* Hero — interactive Lumina WebGL shader showcase (compact / decreased size) */}
-      <section className="relative h-[60svh] min-h-[460px] max-h-[600px] overflow-hidden bg-[#0a0a0a]">
+
+      <section className="relative h-[52svh] min-h-[380px] max-h-[520px] overflow-hidden bg-[#0a0a0a]">
         <LuminaInteractiveList
           slides={slides}
           compact
@@ -80,75 +73,119 @@ export function Blog() {
         />
       </section>
 
-      <Section className="bg-lavender/20">
-        <div className="grid gap-8 md:grid-cols-2">
-          {published.map((post, i) => {
-            const wordCount = post.content ? post.content.split(/\s+/).length : 200;
-            const readMinutes = Math.max(2, Math.ceil(wordCount / 220));
+      <Section className="bg-[linear-gradient(180deg,#f7f2f8_0%,#f3eef6_40%,#f8f6fa_100%)]">
+        <Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-deep-blue">
+              Rare Aesthetics Journal
+            </p>
+            <h1 className="mt-3 font-heading text-3xl font-medium text-plum sm:text-4xl">
+              Welcome to Rare Aesthetics
+            </h1>
+            <p className="mt-3 text-base leading-relaxed text-dark-plum/70">
+              Where science meets beauty vision — notes on formulation, R&D, and building brands
+              with clarity.
+            </p>
+            <p className="mt-4 text-sm text-dark-plum/50">
+              {published.length} {published.length === 1 ? 'article' : 'articles'}
+            </p>
+          </div>
+        </Reveal>
 
-            return (
-              <Reveal key={post.id} delay={(i % 2) * 0.06}>
-                {/* Individual separate box for each blog post */}
-                <article className="h-full">
-                  <Link
-                    to={`/blog/${post.slug}`}
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/15 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-plum/35 hover:bg-white hover:shadow-xl"
-                  >
-                    {/* Card Media Header */}
-                    <div className="img-zoom relative aspect-[16/10] overflow-hidden bg-orchid/20">
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      <div className="absolute top-4 left-4 z-10">
-                        <span className="rounded-full bg-white/95 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-plum shadow-md backdrop-blur-md">
-                          {post.category}
-                        </span>
-                      </div>
-                    </div>
+        {featured && (
+          <Reveal delay={0.05}>
+            <Link
+              to={`/blog/${featured.slug}`}
+              className="group mt-12 grid overflow-hidden rounded-3xl border border-plum/12 bg-white/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-plum/30 hover:shadow-lg lg:grid-cols-[1.1fr_0.9fr]"
+            >
+              <div className="relative aspect-[16/11] overflow-hidden bg-orchid/20 lg:aspect-auto lg:min-h-[360px]">
+                <img
+                  src={featured.image}
+                  alt={featured.title}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                  loading="eager"
+                />
+              </div>
+              <div className="flex flex-col justify-center p-7 sm:p-10">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-orchid/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-plum">
+                    {featured.category}
+                  </span>
+                  <span className="text-xs uppercase tracking-[0.14em] text-deep-blue/80">
+                    {new Date(featured.date).toLocaleDateString('en-ZA', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                    <span className="mx-2 text-deep-blue/40">•</span>
+                    {readMinutesFor(featured)} min read
+                  </span>
+                </div>
+                <h2 className="mt-4 font-heading text-2xl font-semibold leading-snug text-plum transition group-hover:text-deep-blue sm:text-3xl">
+                  {featured.title}
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-dark-plum/70 sm:text-base">
+                  {featured.excerpt}
+                </p>
+                <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-plum transition group-hover:gap-3 group-hover:text-deep-blue">
+                  Read article <ArrowRight className="h-4 w-4" />
+                </span>
+              </div>
+            </Link>
+          </Reveal>
+        )}
 
-                    {/* Card Content Box */}
-                    <div className="flex flex-1 flex-col justify-between p-6 sm:p-8">
-                      <div>
-                        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-deep-blue font-medium">
-                          <span>
-                            {new Date(post.date).toLocaleDateString('en-ZA', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric',
-                            })}
-                          </span>
-                          <span>•</span>
-                          <span>{readMinutes} min read</span>
-                        </div>
-
-                        <h2 className="mt-3 font-heading text-2xl font-semibold leading-snug text-plum transition duration-300 group-hover:text-deep-blue">
-                          {post.title}
-                        </h2>
-
-                        <p className="mt-3 text-sm leading-relaxed text-dark-plum/75 line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                      </div>
-
-                      {/* Card Footer */}
-                      <div className="mt-6 flex items-center justify-between border-t border-plum/10 pt-4">
-                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-plum transition-all duration-300 group-hover:gap-2.5 group-hover:text-deep-blue">
-                          Read blog <ArrowRight className="h-4 w-4" />
-                        </span>
-                        <span className="text-xs uppercase tracking-wider text-dark-plum/50 font-medium">
-                          Rare Aesthetics
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </article>
+        {rest.length > 0 && (
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {rest.map((post, i) => (
+              <Reveal key={post.id} delay={(i % 3) * 0.05}>
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/12 bg-white/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-plum/28 hover:shadow-md"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-orchid/15">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-plum shadow-sm">
+                      {post.category}
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-deep-blue">
+                      {new Date(post.date).toLocaleDateString('en-ZA', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                      <span className="mx-1.5 opacity-40">•</span>
+                      {readMinutesFor(post)} min
+                    </p>
+                    <h3 className="mt-2.5 font-heading text-xl font-semibold leading-snug text-plum transition group-hover:text-deep-blue">
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-dark-plum/70 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 border-t border-plum/10 pt-4 text-sm font-semibold text-plum transition group-hover:gap-2.5 group-hover:text-deep-blue">
+                      Read more <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </Link>
               </Reveal>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
+
+        {published.length === 0 && (
+          <div className="mt-12 rounded-2xl border border-dashed border-plum/20 bg-white/70 px-6 py-16 text-center">
+            <p className="font-heading text-2xl text-plum">Blog posts coming soon</p>
+            <p className="mt-2 text-sm text-dark-plum/65">Check back for new editorial notes.</p>
+          </div>
+        )}
       </Section>
     </>
   );

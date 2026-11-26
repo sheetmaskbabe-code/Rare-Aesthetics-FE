@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, CreditCard } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { navLinks, siteConfig } from '@/data/site';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -93,19 +93,18 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <a
             href="https://paystack.shop/pay/b52q6dwlmu"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-[13px] text-white/80 transition hover:text-[#d5b2dd]"
+            className="px-3 py-2 text-[13px] font-medium text-white/80 transition hover:text-white"
           >
-            <CreditCard className="h-3.5 w-3.5" />
             Make a Payment
           </a>
           <Button
             to="/book"
-            className="!py-2.5 !px-5 text-[13px] bg-[#8524F9] text-white hover:bg-[#731bd9] border-none font-medium transition-transform hover:scale-[1.02]"
+            className="rounded-full border-none bg-[#8524F9] px-6 py-2 text-[13px] font-medium text-white shadow-sm transition hover:bg-[#731bd9]"
           >
             Book a Consultation
           </Button>
@@ -152,13 +151,15 @@ export function Navbar() {
                 href="https://paystack.shop/pay/b52q6dwlmu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-sm px-3 py-3 text-white/80 hover:text-[#d5b2dd]"
+                className="rounded-sm px-3 py-3 text-white/80 transition hover:text-white"
               >
-                <CreditCard className="h-4 w-4" />
                 Make a Payment
               </a>
               <div className="mt-3 px-1">
-                <Button to="/book" className="w-full bg-[#8524F9] text-white hover:bg-[#731bd9] border-none">
+                <Button
+                  to="/book"
+                  className="w-full rounded-full border-none bg-[#8524F9] py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#731bd9]"
+                >
                   Book a Consultation
                 </Button>
               </div>
