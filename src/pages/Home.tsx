@@ -213,7 +213,7 @@ export function Home() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Button
               to={homeData?.heroCtaPrimaryLink || '/services'}
-              className="rounded-full border-none bg-[#8524F9] px-7 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#731bd9]"
+              className="rounded-full border-none bg-[#E4D6E0] px-7 py-2.5 text-sm font-medium text-dark-plum shadow-sm transition hover:bg-[#d9c7d4] hover:text-dark-plum"
             >
               {homeData?.heroCtaPrimaryText || 'Explore Our Services'}
             </Button>

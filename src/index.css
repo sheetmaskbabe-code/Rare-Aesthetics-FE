@@ -240,8 +240,13 @@
   gap: 1rem;
 }
 
-/* Mobile: shift hero copy slightly lower toward the CTAs */
+/* Mobile: shift hero copy slightly lower toward the CTAs;
+   drop the heavy top/bottom black overlays */
 @media (max-width: 640px) {
+  .slider-wrapper::after {
+    background: none;
+  }
+
   .slide-content {
     padding-bottom: clamp(3.25rem, 7vh, 4.5rem);
   }

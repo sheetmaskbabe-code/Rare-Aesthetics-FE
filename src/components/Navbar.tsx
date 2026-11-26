@@ -58,7 +58,7 @@ export function Navbar() {
           : 'translate-y-0 opacity-100 pointer-events-auto',
         scrolled || open
           ? 'border-b border-white/10 bg-[#0a0a0a]/85 backdrop-blur-xl shadow-2xl'
-          : 'bg-gradient-to-b from-black/75 via-black/35 to-transparent'
+          : 'bg-transparent md:bg-gradient-to-b md:from-black/75 md:via-black/35 md:to-transparent'
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
