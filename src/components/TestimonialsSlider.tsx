@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Star, Quote } from 'lucide-react';
 
 export type TestimonialItem = {
   quote: string;
@@ -52,12 +52,12 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   }, [maxIndex]);
 
-  // Autoplay functionality (pauses on hover)
+  // Continuous auto-scroll (pauses on hover)
   useEffect(() => {
     if (isPaused || maxIndex <= 0) return;
     const interval = setInterval(() => {
       handleNext();
-    }, 5500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [handleNext, isPaused, maxIndex]);
@@ -102,7 +102,7 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
           animate={{
             x: `-${currentIndex * (100 / itemsPerPage)}%`,
           }}
-          transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+          transition={{ type: 'spring', stiffness: 220, damping: 26 }}
           style={{
             width: `${(totalItems / itemsPerPage) * 100}%`,
           }}
@@ -140,48 +140,25 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
         </motion.div>
       </div>
 
-      {/* Navigation Controls: Arrows & Indicators */}
-      {maxIndex > 0 && (
-        <div className="mt-8 flex items-center justify-center gap-6">
-          {/* Previous Arrow */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous testimonial"
-            className="group flex h-11 w-11 items-center justify-center rounded-full border border-plum/20 bg-white/90 text-plum shadow-sm transition-all hover:bg-[#8524F9] hover:text-white hover:border-[#8524F9] hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <ChevronLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="flex items-center gap-2">
-            {Array.from({ length: dotsCount }).map((_, dIdx) => {
-              const isActive = dIdx === currentIndex;
-              return (
-                <button
-                  key={dIdx}
-                  type="button"
-                  onClick={() => setCurrentIndex(dIdx)}
-                  aria-label={`Go to slide ${dIdx + 1}`}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    isActive
-                      ? 'w-8 bg-[#8524F9]'
-                      : 'w-2.5 bg-plum/25 hover:bg-plum/50'
-                  }`}
-                />
-              );
-            })}
-          </div>
-
-          {/* Next Arrow */}
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next testimonial"
-            className="group flex h-11 w-11 items-center justify-center rounded-full border border-plum/20 bg-white/90 text-plum shadow-sm transition-all hover:bg-[#8524F9] hover:text-white hover:border-[#8524F9] hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
+      {/* Pagination Indicator Dots */}
+      {dotsCount > 1 && (
+        <div className="mt-8 flex items-center justify-center gap-2">
+          {Array.from({ length: dotsCount }).map((_, dIdx) => {
+            const isActive = dIdx === currentIndex;
+            return (
+              <button
+                key={dIdx}
+                type="button"
+                onClick={() => setCurrentIndex(dIdx)}
+                aria-label={`Go to slide ${dIdx + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  isActive
+                    ? 'w-8 bg-[#8524F9]'
+                    : 'w-2.5 bg-plum/25 hover:bg-plum/50'
+                }`}
+              />
+            );
+          })}
         </div>
       )}
     </div>
