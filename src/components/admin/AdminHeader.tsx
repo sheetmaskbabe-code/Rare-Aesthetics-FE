@@ -30,7 +30,7 @@ type AdminHeaderProps = {
 
 export function AdminHeader({ activeTab, onTabChange, onSignOut, counts, health }: AdminHeaderProps) {
   const tabs: { id: AdminTab; label: string; icon: typeof BookOpen; count?: number }[] = [
-    { id: 'blogs', label: 'Blog Posts', icon: BookOpen, count: counts.blogs },
+    { id: 'blogs', label: 'Articles', icon: BookOpen, count: counts.blogs },
     { id: 'portfolio', label: 'Portfolio', icon: Briefcase, count: counts.portfolio },
     { id: 'enquiries', label: 'Enquiries', icon: Mail, count: counts.enquiries },
     { id: 'home', label: 'Home Page', icon: HomeIcon },
