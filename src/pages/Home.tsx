@@ -7,7 +7,6 @@ import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
 import { FinalCta } from '@/components/FinalCta';
 import { Accordion } from '@/components/ui/Accordion';
-import { ServiceIcon } from '@/components/ServiceIcon';
 import { Component as LuminaInteractiveList } from '@/components/ui/lumina-interactive-list';
 import { TestimonialsSlider } from '@/components/TestimonialsSlider';
 import { services } from '@/data/services';
@@ -300,9 +299,6 @@ export function Home() {
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-plum/60 via-transparent to-transparent opacity-80" />
-                  <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-plum shadow-md backdrop-blur-sm">
-                    <ServiceIcon name={service.icon} className="h-5 w-5" />
-                  </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="font-heading text-xl text-plum transition group-hover:text-deep-blue">{service.title}</h3>

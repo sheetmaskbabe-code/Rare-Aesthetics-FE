@@ -172,7 +172,7 @@ export function About() {
         </Section>
       </div>
 
-      <Section className="bg-orchid/25">
+      <Section className="bg-orchid/25 pt-24 md:pt-28">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionHeading
@@ -181,12 +181,9 @@ export function About() {
               titleClassName="text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.15]"
             />
             <div className="mt-6 space-y-4 text-dark-plum/85 leading-relaxed text-base md:text-lg">
-              <p className="font-semibold text-plum flex items-center gap-2 text-lg md:text-xl">
-                <span>👩🏽‍🔬</span>
-                <span>
-                  {aboutData?.founderTitle ||
-                    'Cosmetic Chemist | Beauty Innovator | Founder of The RA Group'}
-                </span>
+              <p className="font-semibold text-plum text-lg md:text-xl">
+                {aboutData?.founderTitle ||
+                  'Cosmetic Chemist | Beauty Innovator | Founder of The RA Group'}
               </p>
               <p>
                 {aboutData?.founderBio1 ||
@@ -201,7 +198,7 @@ export function About() {
                   'From developing effective skincare and haircare formulations to exploring new beauty trends, every idea begins with curiosity and a commitment to excellence. My mission is to create products that inspire confidence, celebrate individuality, and make beauty more accessible.'}
               </p>
               <p className="font-medium text-plum">
-                ✨ <strong>Building the future of beauty, one formulation at a time.</strong>
+                <strong>Building the future of beauty, one formulation at a time.</strong>
               </p>
               <div className="pt-3 border-t border-plum/15 text-sm md:text-base text-dark-plum/70">
                 <strong className="text-plum">Featured in:</strong>{' '}

@@ -240,6 +240,21 @@
   gap: 1rem;
 }
 
+/* Mobile: shift hero copy slightly lower toward the CTAs */
+@media (max-width: 640px) {
+  .slide-content {
+    padding-bottom: clamp(3.25rem, 7vh, 4.5rem);
+  }
+
+  .slide-title {
+    margin-bottom: 0.85rem;
+  }
+
+  .slide-custom-actions {
+    margin-top: 1.15rem;
+  }
+}
+
 .slides-navigation {
   display: none !important;
   position: absolute;
