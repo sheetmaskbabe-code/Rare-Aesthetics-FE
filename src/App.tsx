@@ -13,6 +13,7 @@ import { Process } from '@/pages/Process';
 import { Portfolio } from '@/pages/Portfolio';
 import { PortfolioDetail } from '@/pages/PortfolioDetail';
 import { WhyChooseUs } from '@/pages/WhyChooseUs';
+import { Articles } from '@/pages/Articles';
 import { Blog } from '@/pages/Blog';
 import { BlogPost } from '@/pages/BlogPost';
 import { Faqs } from '@/pages/Faqs';
@@ -55,7 +56,7 @@ function AnimatedRoutes() {
           <Route path="/portfolio/products" element={<Products />} />
           <Route path="/portfolio/:slug" element={<PortfolioDetail />} />
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
-          <Route path="/articles" element={<Blog />} />
+          <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:slug" element={<BlogPost />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
