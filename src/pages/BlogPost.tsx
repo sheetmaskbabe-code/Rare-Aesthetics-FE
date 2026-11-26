@@ -120,7 +120,7 @@ export function BlogPost() {
   const { posts } = useContent();
   const post = posts.find((p) => p.slug === slug && p.published);
 
-  if (!post) return <Navigate to="/blog" replace />;
+  if (!post) return <Navigate to="/articles" replace />;
 
   const wordCount = post.content ? post.content.split(/\s+/).length : 200;
   const readMinutes = Math.max(2, Math.ceil(wordCount / 220));
@@ -136,8 +136,8 @@ export function BlogPost() {
         keywords={[post.title, 'cosmetic formulation blog', 'beauty insights', ...CORE_KEYWORDS]}
         breadcrumbs={[
           { name: 'Home', path: '/' },
-          { name: 'Blog', path: '/blog' },
-          { name: post.title, path: `/blog/${post.slug}` },
+          { name: 'Articles', path: '/articles' },
+          { name: post.title, path: `/articles/${post.slug}` },
         ]}
         schema={{
           '@context': 'https://schema.org',
@@ -166,7 +166,7 @@ export function BlogPost() {
         <div className="bg-hero-mesh border-b border-plum/10">
           <div className="mx-auto max-w-4xl px-5 pb-12 pt-32 sm:px-8 md:pt-40">
             <Link
-              to="/blog"
+              to="/articles"
               className="inline-flex items-center gap-2 text-sm font-medium text-deep-blue transition hover:text-plum"
             >
               <ArrowLeft className="h-4 w-4" /> Back to all articles
@@ -239,7 +239,7 @@ export function BlogPost() {
                   <Button to="/book-consultation" variant="primary">
                     Book a Consultation
                   </Button>
-                  <Button to="/blog" variant="ghost">
+                  <Button to="/articles" variant="ghost">
                     Explore More Articles <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>

@@ -592,7 +592,7 @@ export function Home() {
             <Reveal key={post.id} delay={i * 0.06}>
               <article className="h-full">
                 <Link
-                  to={`/blog/${post.slug}`}
+                  to={`/articles/${post.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/15 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-plum/35 hover:bg-white hover:shadow-xl"
                 >
                   <div className="img-zoom relative aspect-[16/10] overflow-hidden bg-orchid/20">
@@ -634,17 +634,17 @@ export function Home() {
             </Reveal>
           ))}
 
-          {/* View all blogs action card */}
+          {/* View all articles action card */}
           <Reveal delay={publishedPosts.length * 0.06}>
             <Link
-              to="/blog"
+              to="/articles"
               className="group relative flex h-full min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-plum/20 bg-white/70 p-8 text-center backdrop-blur-md transition duration-500 hover:border-plum/40 hover:bg-white/90 hover:shadow-xl"
             >
               {/* Blurred background image */}
               <div className="absolute inset-0 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=80"
-                  alt="View all blogs background"
+                  alt="View all articles background"
                   className="h-full w-full object-cover filter blur-[8px] scale-110 opacity-30 transition-transform duration-700 ease-out group-hover:scale-125"
                   loading="lazy"
                 />
@@ -655,14 +655,14 @@ export function Home() {
               <div className="relative z-10 flex flex-col items-center justify-center">
                 <ArrowRight className="mb-4 h-8 w-8 text-plum transition-transform duration-300 group-hover:translate-x-1.5" />
                 <h3 className="font-heading text-2xl font-medium text-plum transition group-hover:text-deep-blue">
-                  All Blogs
+                  All Articles
                 </h3>
                 <p className="mt-3 max-w-xs text-sm leading-relaxed text-dark-plum/75">
-                  Explore our complete archive of beauty blogs, cosmetic chemistry notes, and formulation insights.
+                  Explore our complete archive of cosmetic chemistry notes, formulation research, and industry insights.
                 </p>
                 <div className="mt-6">
                   <span className="inline-flex items-center gap-2 rounded-sm border border-plum/40 bg-white/90 px-5 py-2.5 text-sm font-medium text-plum shadow-sm backdrop-blur-md transition group-hover:bg-[#8524F9] group-hover:border-[#8524F9] group-hover:text-white">
-                    View all blogs
+                    View all articles
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>

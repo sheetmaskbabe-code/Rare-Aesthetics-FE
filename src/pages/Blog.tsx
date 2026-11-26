@@ -91,7 +91,7 @@ export function Blog() {
                 {/* Individual separate box for each blog post */}
                 <article className="h-full">
                   <Link
-                    to={`/blog/${post.slug}`}
+                    to={`/articles/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-plum/15 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-plum/35 hover:bg-white hover:shadow-xl"
                   >
                     {/* Card Media Header */}
@@ -136,7 +136,7 @@ export function Blog() {
                       {/* Card Footer */}
                       <div className="mt-6 flex items-center justify-between border-t border-plum/10 pt-4">
                         <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-plum transition-all duration-300 group-hover:gap-2.5 group-hover:text-deep-blue">
-                          Read blog <ArrowRight className="h-4 w-4" />
+                          Read article <ArrowRight className="h-4 w-4" />
                         </span>
                         <span className="text-xs uppercase tracking-wider text-dark-plum/50 font-medium">
                           Rare Aesthetics

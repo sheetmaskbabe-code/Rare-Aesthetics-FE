@@ -55,6 +55,8 @@ function AnimatedRoutes() {
           <Route path="/portfolio/products" element={<Products />} />
           <Route path="/portfolio/:slug" element={<PortfolioDetail />} />
           <Route path="/why-choose-us" element={<WhyChooseUs />} />
+          <Route path="/articles" element={<Blog />} />
+          <Route path="/articles/:slug" element={<BlogPost />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/faq" element={<Faqs />} />
