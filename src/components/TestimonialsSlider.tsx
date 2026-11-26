@@ -16,10 +16,9 @@ type TestimonialsSliderProps = {
 export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
-  const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  // Update visible card count based on screen size
+  // Responsive items count based on viewport width
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
@@ -36,33 +35,26 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalItems = testimonials.length;
+  const totalItems = testimonials?.length || 0;
   const maxIndex = Math.max(0, totalItems - itemsPerPage);
 
-  // Adjust currentIndex if itemsPerPage changes
+  // Keep currentIndex in bounds if screen resized
   useEffect(() => {
     setCurrentIndex((prev) => Math.min(prev, maxIndex));
   }, [maxIndex]);
 
-  const handlePrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  }, [maxIndex]);
-
-  const handleNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  }, [maxIndex]);
-
-  // Continuous auto-scroll (pauses on hover)
+  // Reliable, continuous auto-slide every 3.2 seconds
   useEffect(() => {
-    if (isPaused || maxIndex <= 0) return;
+    if (maxIndex <= 0) return;
+
     const interval = setInterval(() => {
-      handleNext();
-    }, 4000);
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 3200);
 
     return () => clearInterval(interval);
-  }, [handleNext, isPaused, maxIndex]);
+  }, [maxIndex]);
 
-  // Touch swipe support for mobile
+  // Mobile swipe support
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -72,9 +64,9 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) {
       if (diff > 0) {
-        handleNext();
+        setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
       } else {
-        handlePrev();
+        setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
       }
     }
     touchStartX.current = null;
@@ -84,34 +76,35 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
     return null;
   }
 
-  // Calculate dots/pages count
   const dotsCount = maxIndex + 1;
+  const gapRem = 1.5; // 24px gap between cards
 
   return (
     <div
-      className="relative mx-auto mt-12 max-w-6xl px-4 sm:px-8 select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative mx-auto mt-12 max-w-6xl px-4 sm:px-6 select-none"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Slider viewport */}
+      {/* Slider Viewport */}
       <div className="overflow-hidden py-4">
         <motion.div
-          className="flex gap-6"
+          className="flex"
+          style={{ gap: `${gapRem}rem` }}
           animate={{
-            x: `-${currentIndex * (100 / itemsPerPage)}%`,
+            x: `calc(-${currentIndex} * ((100% - ${(itemsPerPage - 1) * gapRem}rem) / ${itemsPerPage} + ${gapRem}rem))`,
           }}
-          transition={{ type: 'spring', stiffness: 220, damping: 26 }}
-          style={{
-            width: `${(totalItems / itemsPerPage) * 100}%`,
+          transition={{
+            duration: 0.85,
+            ease: [0.25, 1, 0.5, 1],
           }}
         >
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              style={{ width: `${100 / totalItems}%` }}
-              className="flex flex-col justify-between rounded-2xl border border-plum/15 bg-white/80 p-6 sm:p-7 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[#8524F9]/40 hover:shadow-xl hover:-translate-y-1"
+              style={{
+                width: `calc((100% - ${(itemsPerPage - 1) * gapRem}rem) / ${itemsPerPage})`,
+              }}
+              className="shrink-0 flex flex-col justify-between rounded-2xl border border-plum/15 bg-white/80 p-6 sm:p-7 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[#8524F9]/40 hover:shadow-xl hover:-translate-y-1"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -140,7 +133,7 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
         </motion.div>
       </div>
 
-      {/* Pagination Indicator Dots */}
+      {/* Slide Position Indicator Dots */}
       {dotsCount > 1 && (
         <div className="mt-8 flex items-center justify-center gap-2">
           {Array.from({ length: dotsCount }).map((_, dIdx) => {
@@ -151,7 +144,7 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
                 type="button"
                 onClick={() => setCurrentIndex(dIdx)}
                 aria-label={`Go to slide ${dIdx + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
                   isActive
                     ? 'w-8 bg-[#8524F9]'
                     : 'w-2.5 bg-plum/25 hover:bg-plum/50'
