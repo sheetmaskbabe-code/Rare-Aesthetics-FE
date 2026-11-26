@@ -69,7 +69,12 @@ const getCachedHomeData = () => {
   if (typeof window === 'undefined') return null;
   try {
     const raw = localStorage.getItem(HOME_CACHE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed?.testimonials && parsed.testimonials.length < 3) {
+      return null;
+    }
+    return parsed;
   } catch {
     return null;
   }

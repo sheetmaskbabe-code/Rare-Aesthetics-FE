@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { Star, Quote, ChevronRight } from 'lucide-react';
 
 export type TestimonialItem = {
   quote: string;
@@ -16,29 +16,18 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const isHoveredRef = useRef(false);
   const isBusyRef = useRef(false);
-  const touchStartX = useRef<number | null>(null);
 
-  // Guarantee at least 6 cards in queue so 3 are visible and buffer cards exist
-  const initialItems = useMemo(() => {
-    if (!testimonials || testimonials.length === 0) return [];
-    let list = [...testimonials];
-    while (list.length < 6) {
-      list = [...list, ...testimonials];
-    }
-    return list;
-  }, [testimonials]);
+  // Initialize with testimonials without duplicating when 3+ items exist
+  const [items, setItems] = useState<TestimonialItem[]>(() => {
+    return testimonials || [];
+  });
 
-  const [items, setItems] = useState<TestimonialItem[]>(initialItems);
-  const [translateX, setTranslateX] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Sync if prop updates
+  // Keep state in sync with props
   useEffect(() => {
-    setItems(initialItems);
-    setTranslateX(0);
-    setIsTransitioning(false);
-    isBusyRef.current = false;
-  }, [initialItems]);
+    if (testimonials && testimonials.length > 0) {
+      setItems(testimonials);
+    }
+  }, [testimonials]);
 
   // Width of 1 card + 24px gap
   const getStep = () => {
@@ -47,69 +36,46 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
     return firstChild.offsetWidth + 24;
   };
 
-  // Next (front) arrow handler: ALWAYS moves forward (leftwards)
-  const handleNext = useCallback(() => {
-    if (isBusyRef.current) return;
+  // Scroll forward ONLY: shifts cards to the left, then rotates queue
+  const handleScrollFront = useCallback(() => {
+    if (isBusyRef.current || !trackRef.current || items.length <= 1) return;
     const step = getStep();
     if (step === 0) return;
 
     isBusyRef.current = true;
-    setIsTransitioning(true);
-    setTranslateX(-step);
-  }, []);
+    const track = trackRef.current;
 
-  // Prev (back) arrow handler: moves previous card smoothly in from left
-  const handlePrev = useCallback(() => {
-    if (isBusyRef.current) return;
-    const step = getStep();
-    if (step === 0) return;
+    // Smooth forward transition
+    track.style.transition = 'transform 600ms cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform = `translateX(-${step}px)`;
 
-    isBusyRef.current = true;
+    // Once the forward slide completes, rotate array forward and reset transform with 0ms transition
+    setTimeout(() => {
+      setItems((prev) => (prev.length > 1 ? [...prev.slice(1), prev[0]] : prev));
+      if (trackRef.current) {
+        trackRef.current.style.transition = 'none';
+        trackRef.current.style.transform = 'translateX(0)';
+      }
+      isBusyRef.current = false;
+    }, 620);
+  }, [items.length]);
 
-    // 1. Move last card to front
-    setItems((prev) => [prev[prev.length - 1], ...prev.slice(0, -1)]);
-
-    // 2. Instantly shift translateX to -step (no transition)
-    setIsTransitioning(false);
-    setTranslateX(-step);
-
-    // 3. Next frame: animate to 0 so previous card slides smoothly into view
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setIsTransitioning(true);
-        setTranslateX(0);
-      });
-    });
-  }, []);
-
-  // When transition finishes
-  const handleTransitionEnd = () => {
-    if (!isTransitioning) return;
-
-    if (translateX < 0) {
-      // Completed forward slide: shift first card to back and reset translateX to 0 with NO animation
-      setItems((prev) => [...prev.slice(1), prev[0]]);
-    }
-
-    setIsTransitioning(false);
-    setTranslateX(0);
-    isBusyRef.current = false;
-  };
-
-  // Automatic slide: ALWAYS forward, never reverses or back-slides
+  // Continuous auto-slide: strictly forward only, never backwards
   useEffect(() => {
     if (!testimonials || testimonials.length <= 1) return;
 
     const interval = setInterval(() => {
       if (!isHoveredRef.current && !isBusyRef.current) {
-        handleNext();
+        handleScrollFront();
       }
     }, 3800);
 
     return () => clearInterval(interval);
-  }, [handleNext, testimonials]);
+  }, [handleScrollFront, testimonials]);
 
-  // Mobile swipe gestures
+  // Mobile swipe: left swipe slides forward
+  const touchStartX = useRef<number | null>(null);
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -117,17 +83,14 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
+    // Any swipe triggers forward progression
     if (Math.abs(diff) > 40) {
-      if (diff > 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
+      handleScrollFront();
     }
     touchStartX.current = null;
   };
 
-  if (!testimonials || testimonials.length === 0) {
+  if (!items || items.length === 0) {
     return null;
   }
 
@@ -143,42 +106,27 @@ export function TestimonialsSlider({ testimonials }: TestimonialsSliderProps) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Front and Back Navigation Arrows Placed at UP */}
+      {/* Front Navigation Control placed at UP */}
       <div className="flex items-center justify-between sm:justify-end gap-3 mb-6">
-        <span className="text-xs uppercase tracking-widest text-plum/50 font-medium sm:hidden">
-          Swipe or navigate
+        <span className="text-xs uppercase tracking-widest text-plum/50 font-medium">
+          Verified Reviews ({testimonials.length})
         </span>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous testimonial"
-            className="group flex h-11 w-11 items-center justify-center rounded-full border border-plum/20 bg-white/90 text-plum shadow-sm transition-all duration-300 hover:bg-[#8524F9] hover:text-white hover:border-[#8524F9] hover:shadow-md cursor-pointer active:scale-95"
-          >
-            <ChevronLeft className="h-5 w-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next testimonial"
-            className="group flex h-11 w-11 items-center justify-center rounded-full border border-plum/20 bg-white/90 text-plum shadow-sm transition-all duration-300 hover:bg-[#8524F9] hover:text-white hover:border-[#8524F9] hover:shadow-md cursor-pointer active:scale-95"
-          >
-            <ChevronRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleScrollFront}
+          aria-label="Next testimonial"
+          title="Scroll next testimonial"
+          className="group flex h-11 w-11 items-center justify-center rounded-full border border-plum/20 bg-white/90 text-plum shadow-sm transition-all duration-300 hover:bg-[#8524F9] hover:text-white hover:border-[#8524F9] hover:shadow-md cursor-pointer active:scale-95"
+        >
+          <ChevronRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </button>
       </div>
 
       {/* Overflow Hidden Slider Viewport */}
       <div className="overflow-hidden py-4">
         <div
           ref={trackRef}
-          onTransitionEnd={handleTransitionEnd}
-          style={{
-            transform: `translateX(${translateX}px)`,
-            transition: isTransitioning
-              ? 'transform 550ms cubic-bezier(0.25, 1, 0.5, 1)'
-              : 'none',
-          }}
+          style={{ transform: 'translateX(0)' }}
           className="flex gap-6 will-change-transform"
         >
           {items.map((t, idx) => (
