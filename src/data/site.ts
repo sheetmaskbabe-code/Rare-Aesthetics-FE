@@ -7,7 +7,7 @@ export const siteConfig = {
   location: 'Pretoria, South Africa',
   address: '60 Willow Rd, Muckleneuk, Pretoria, 0002, South Africa',
   phone: '+27 65 128 0000',
-  email: 'sheetmaskbabe@gmail.com',
+  email: 'info@rareaestheticsgroup.com',
   /** Replace with the client's live Calendly URL before launch */
   calendlyUrl: '',
   /** Replace with the approved payment provider checkout URL before launch */

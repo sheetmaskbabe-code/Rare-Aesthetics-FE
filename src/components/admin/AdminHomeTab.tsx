@@ -91,7 +91,7 @@ const defaultHomeData: HomePageData = {
   aboutDescription:
     'My Rare Aesthetics supports beauty entrepreneurs and established brands through cosmetic product development and consulting — with a focus on thoughtful formulation, research and manufacturing support.',
   aboutParagraph1:
-    'Based in Pretoria, South Africa, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.',
+    'We partner with founders and brands across the globe, from North America, Europe, Australia, The Middle East and Africa who want to move from idea to an innovative cosmetic product with clarity and care',
   aboutParagraph2:
     'Founded by Lindi-Grace, My Rare Aesthetics brings a premium, science-led approach to product development — without losing the artistry that makes beauty brands distinctive.',
   aboutImage: '/images/director.jpg',

@@ -18,6 +18,11 @@ import { useContent } from '@/context/ContentContext';
 import { apiUrl } from '@/lib/api';
 import { resolvePostLink } from '@/lib/utils';
 import { OKOA_HUB_PATH, okoaArticleCount } from '@/data/okoaArticles';
+import {
+  GlobalPartnersText,
+  GLOBAL_PARTNERS_PLAIN,
+  isGlobalPartnersCopy,
+} from '@/components/GlobalPartnersText';
 
 import heroImg1 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40.jpeg';
 import heroImg2 from '@/images/WhatsApp Image 2026-11-19 at 16.29.40 (1).jpeg';
@@ -251,10 +256,11 @@ export function Home() {
               descriptionClassName="text-xl md:text-2xl leading-relaxed text-dark-plum/90"
             />
             <div className="mt-8 space-y-5 text-lg md:text-xl leading-relaxed text-dark-plum/85">
-              <p>
-                {homeData?.aboutParagraph1 ||
-                  `Based in ${siteConfig.location}, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.`}
-              </p>
+              {isGlobalPartnersCopy(homeData?.aboutParagraph1) ? (
+                <GlobalPartnersText />
+              ) : (
+                <p>{homeData?.aboutParagraph1 || GLOBAL_PARTNERS_PLAIN}</p>
+              )}
               <p>
                 {homeData?.aboutParagraph2 ||
                   `Founded by ${siteConfig.founder}, My Rare Aesthetics brings a premium, science-led approach to product development — without losing the artistry that makes beauty brands distinctive.`}

@@ -22,7 +22,7 @@ const defaultSettings: SiteSettingsData = {
   brandName: 'My Rare Aesthetics',
   tagline: 'Where Science Meets Beauty Vision',
   founderName: 'Lindi-Grace',
-  contactEmail: 'info@mraesthetics.co.za',
+  contactEmail: 'info@rareaestheticsgroup.com',
   contactPhone: '+27 (0) 12 345 6789',
   address: 'Pretoria, Gauteng, South Africa',
   businessHours: 'Mon - Fri: 08:30 - 17:00 (SAST)',
