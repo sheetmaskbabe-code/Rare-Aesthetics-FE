@@ -12,6 +12,7 @@ export const GLOBAL_PARTNERS_PLAIN =
 const LEGACY_PARTNER_COPY = [
   'Based in Pretoria, South Africa, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.',
   'Based in Pretoria, Gauteng, South Africa, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.',
+  'We partner with founders and brands who want a refined pathway from concept to product — combining research, formulation thinking, evaluation support and practical production coordination.',
 ];
 
 export function isGlobalPartnersCopy(text?: string | null) {

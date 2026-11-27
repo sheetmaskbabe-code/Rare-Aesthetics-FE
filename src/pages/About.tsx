@@ -9,7 +9,11 @@ import { siteConfig } from '@/data/site';
 import { pageSeo } from '@/data/seo';
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { apiUrl } from '@/lib/api';
-import { GLOBAL_PARTNERS_PLAIN } from '@/components/GlobalPartnersText';
+import {
+  GlobalPartnersText,
+  GLOBAL_PARTNERS_PLAIN,
+  isGlobalPartnersCopy,
+} from '@/components/GlobalPartnersText';
 import founderImage from '@/images/WhatsApp Image 2026-11-21 at 16.09.57.jpeg';
 
 const ORIGINAL_FOUNDER_BIO_2 =
@@ -162,10 +166,11 @@ export function About() {
                   {aboutData?.companyParagraph1 ||
                     'My Rare Aesthetics is a Pretoria-based consultancy focused on cosmetic product development, formulation, manufacturing support and brand-minded consulting.'}
                 </p>
-                <p>
-                  {aboutData?.companyParagraph2 ||
-                    'We partner with founders and brands who want a refined pathway from concept to product — combining research, formulation thinking, evaluation support and practical production coordination.'}
-                </p>
+                {isGlobalPartnersCopy(aboutData?.companyParagraph2) ? (
+                  <GlobalPartnersText />
+                ) : (
+                  <p>{aboutData?.companyParagraph2 || GLOBAL_PARTNERS_PLAIN}</p>
+                )}
                 <p>
                   {aboutData?.companyParagraph3 ||
                     'Our work is rooted in luxury presentation and scientific care: clear process, quality-focused development, and respect for the artistry of beauty brands.'}
