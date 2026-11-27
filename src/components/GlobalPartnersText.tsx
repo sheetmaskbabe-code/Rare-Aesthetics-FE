@@ -10,7 +10,6 @@ export const GLOBAL_PARTNERS_PLAIN =
   'We partner with founders and brands across the globe, from North America, Europe, Australia, The Middle East and Africa who want to move from idea to an innovative cosmetic product with clarity and care';
 
 const LEGACY_PARTNER_COPY = [
-  'Building The RA Group, with a vision to redefine the beauty and cosmetics industry through innovative formulations, premium-quality products, and science-backed skincare solutions.',
   'Based in Pretoria, South Africa, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.',
   'Based in Pretoria, Gauteng, South Africa, we partner with founders and brands who want to move from idea to a carefully developed cosmetic product with clarity and care.',
 ];
@@ -21,7 +20,6 @@ export function isGlobalPartnersCopy(text?: string | null) {
   if (normalized === GLOBAL_PARTNERS_PLAIN) return true;
   if (LEGACY_PARTNER_COPY.some((legacy) => normalized === legacy)) return true;
   if (normalized.startsWith('Based in Pretoria')) return true;
-  if (normalized.includes('Building The RA Group')) return true;
   return false;
 }
 

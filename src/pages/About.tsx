@@ -9,12 +9,11 @@ import { siteConfig } from '@/data/site';
 import { pageSeo } from '@/data/seo';
 import { usePageHeader } from '@/hooks/usePageHeader';
 import { apiUrl } from '@/lib/api';
-import {
-  GlobalPartnersText,
-  GLOBAL_PARTNERS_PLAIN,
-  isGlobalPartnersCopy,
-} from '@/components/GlobalPartnersText';
+import { GLOBAL_PARTNERS_PLAIN } from '@/components/GlobalPartnersText';
 import founderImage from '@/images/WhatsApp Image 2026-11-21 at 16.09.57.jpeg';
+
+const ORIGINAL_FOUNDER_BIO_2 =
+  'Building The RA Group, with a vision to redefine the beauty and cosmetics industry through innovative formulations, premium-quality products, and science-backed skincare solutions.';
 
 const aboutSlides = [
   {
@@ -194,11 +193,13 @@ export function About() {
                 {aboutData?.founderBio1 ||
                   'Probably wearing a sheet mask, practising yoga, or experimenting with the next big skincare innovation. Passionate about the science behind beauty, I believe that great skincare is where creativity, research, and innovation come together.'}
               </p>
-              {isGlobalPartnersCopy(aboutData?.founderBio2) ? (
-                <GlobalPartnersText />
-              ) : (
-                <p>{aboutData?.founderBio2 || GLOBAL_PARTNERS_PLAIN}</p>
-              )}
+              <p>
+                {aboutData?.founderBio2 &&
+                aboutData.founderBio2.trim() !== GLOBAL_PARTNERS_PLAIN &&
+                !aboutData.founderBio2.includes('across the globe, from North America')
+                  ? aboutData.founderBio2
+                  : ORIGINAL_FOUNDER_BIO_2}
+              </p>
               <p>
                 {aboutData?.founderBio3 ||
                   'From developing effective skincare and haircare formulations to exploring new beauty trends, every idea begins with curiosity and a commitment to excellence. My mission is to create products that inspire confidence, celebrate individuality, and make beauty more accessible.'}
